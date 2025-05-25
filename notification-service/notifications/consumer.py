@@ -3,18 +3,15 @@ import os
 import django
 
 # Thiết lập Django environment để dùng ORM
-os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                      'notification_service.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'notification_service.settings')
 django.setup()
-
 
 import json
 import pika
 from django.utils import timezone
 from notifications.models import Notification
 from django.conf import settings
-from django.core.mail import send_mail# Đọc config từ env
-
+from django.core.mail import send_mail
 
 RABBIT_HOST = os.getenv('RABBITMQ_HOST')
 RABBIT_PORT = int(os.getenv('RABBITMQ_PORT'))
@@ -30,39 +27,45 @@ channel = connection.channel()
 
 # Tạo exchange & queue
 exchange = 'appointment'
-channel.exchange_declare(
-    exchange=exchange, exchange_type='topic', durable=True)
+channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
 queue = 'notification_queue'
 channel.queue_declare(queue=queue, durable=True)
-# binding tất cả event appointment.*
 channel.queue_bind(queue=queue, exchange=exchange, routing_key='appointment.*')
 
-print('[*] Waiting for messages. To exit press CTRL+C')
-
+print('[*] Waiting for messages. To exit press CTRL+C', flush=True)
 
 def callback(ch, method, properties, body):
-    data = json.loads(body)
-    event = method.routing_key  # ví dụ 'appointment.created'
-    notif = Notification.objects.create(
-        event_type=event,
-        payload=data,
-        status='pending'
-    )
+    print(f"[*] Received message: {body}", flush=True)
     try:
-        # Ví dụ: gửi email (giả sử payload có patient_email, doctor_email, message)
+        data = json.loads(body)
+        print(f"[*] Parsed data: {data}", flush=True)
+        event = method.routing_key
+        notif = Notification.objects.create(
+            event_type=event,
+            payload=data,
+            status='pending'
+        )
         subject = f"Notification: {event}"
         message = data.get('message', json.dumps(data))
-        recipient = data.get('patient_email')
-        send_mail(subject, message, settings.SMTP_USER,
-                  [recipient], fail_silently=False)
-        notif.status = 'sent'
+        recipients = []
+        if data.get('patient_email'):
+            recipients.append(data['patient_email'])
+        if data.get('doctor_email'):
+            recipients.append(data['doctor_email'])
+        if recipients:
+            print(f"[*] Sending mail to: {recipients} | Subject: {subject}", flush=True)
+            send_mail(subject, message, settings.EMAIL_HOST_USER, recipients, fail_silently=False)
+            print("[*] Mail sent successfully.", flush=True)
+            notif.status = 'sent'
+        else:
+            print("[!] No recipient email found in message.", flush=True)
+            notif.status = 'failed'
+        notif.processed_at = timezone.now()
+        notif.save()
     except Exception as e:
-        print('Error sending:', e)
-        notif.status = 'failed'
-    notif.processed_at = timezone.now()
-    notif.save()
-    ch.basic_ack(delivery_tag=method.delivery_tag)
-
+        print(f'[!] Error in callback: {e}', flush=True)
+    finally:
+        ch.basic_ack(delivery_tag=method.delivery_tag)
 
 channel.basic_qos(prefetch_count=1)
 channel.basic_consume(queue=queue, on_message_callback=callback)

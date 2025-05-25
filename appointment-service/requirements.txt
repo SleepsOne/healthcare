@@ -4,3 +4,4 @@ djangorestframework-simplejwt
 django-environ
 requests
 psycopg2-binary
+pika
