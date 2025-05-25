@@ -72,6 +72,21 @@ services:
     networks:
       - backend
 
+  notification-service:
+    build: ./notification-service
+    env_file:
+      - .env
+      - ./notification-service/.env
+    depends_on:
+      - db
+      - rabbitmq
+    networks:
+      - backend
+    # nếu có API, expose port
+    ports:
+      - "8004:8004"
+
+
 
   nginx:
     image: nginx:stable-alpine
