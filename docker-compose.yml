@@ -58,6 +58,21 @@ services:
     networks:
       - backend
 
+  doctor-service:
+    build: ./doctor-service
+    env_file:
+      - .env
+      - ./doctor-service/.env
+    ports:
+      - "8003:8003"
+    depends_on:
+      - db
+      - rabbitmq
+      - user-service
+    networks:
+      - backend
+
+
   nginx:
     image: nginx:stable-alpine
     ports:

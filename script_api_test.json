@@ -1,0 +1,202 @@
+{
+  "info": {
+    "name": "Healthcare Microservices VN Test",
+    "_postman_id": "healthcare-microservices-vn-test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "access_token", "value": "" },
+    { "key": "user_id", "value": "" },
+    { "key": "patient_id", "value": "" },
+    { "key": "doctor_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1. Đăng ký user (bác sĩ)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"bacsihoang\",\n  \"password\": \"matkhau123\",\n  \"full_name\": \"Hoàng Văn Bác Sĩ\",\n  \"email\": \"bacsihoang@benhvien.vn\",\n  \"dob\": \"1980-05-20\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost/api/v1/users/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "path": ["api", "v1", "users", ""]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set(\"user_id\", json.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Đăng nhập lấy JWT token",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"bacsihoang\",\n  \"password\": \"matkhau123\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost/api/v1/token/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "path": ["api", "v1", "token", ""]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set(\"access_token\", json.access);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Tạo patient mới",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"medical_record\": \"MRVN001\",\n  \"full_name\": \"Nguyễn Thị Bệnh Nhân\",\n  \"dob\": \"1995-09-15\",\n  \"address\": \"123 Đường Láng, Hà Nội\",\n  \"phone\": \"0912345678\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost/api/v1/patients/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "path": ["api", "v1", "patients", ""]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set(\"patient_id\", json.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Tạo doctor mới",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"specialty\": \"Nội tổng hợp\",\n  \"bio\": \"Bác sĩ chuyên khoa nội, 20 năm kinh nghiệm\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost/api/v1/doctors/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "path": ["api", "v1", "doctors", ""]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set(\"doctor_id\", json.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Tạo appointment mới",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"patient_id\": {{patient_id}},\n  \"doctor_id\": {{doctor_id}},\n  \"scheduled_at\": \"2025-06-01T09:00:00Z\",\n  \"status\": \"confirmed\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost/api/v1/appointments/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "path": ["api", "v1", "appointments", ""]
+        }
+      }
+    },
+    {
+      "name": "6. Lấy thông tin patient",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "url": {
+          "raw": "http://localhost/api/v1/patients/{{patient_id}}/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "path": ["api", "v1", "patients", "{{patient_id}}", ""]
+        }
+      }
+    },
+    {
+      "name": "7. Lấy thông tin doctor",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "url": {
+          "raw": "http://localhost/api/v1/doctors/{{doctor_id}}/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "path": ["api", "v1", "doctors", "{{doctor_id}}", ""]
+        }
+      }
+    },
+    {
+      "name": "8. Lấy thông tin appointment",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "url": {
+          "raw": "http://localhost/api/v1/appointments/1/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "path": ["api", "v1", "appointments", "1", ""]
+        }
+      }
+    }
+  ]
+}
