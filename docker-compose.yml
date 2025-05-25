@@ -1,0 +1,77 @@
+services:
+  db:
+    image: postgres:13
+    env_file: .env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    env_file: .env
+    ports:
+      - "15672:15672"
+    networks:
+      - backend
+
+  user-service:
+    build: ./user-service
+    # không override entrypoint ở đây, Docker sẽ dùng ENTRYPOINT từ Dockerfile
+    env_file:
+      - .env
+      - ./user-service/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - rabbitmq
+    networks:
+      - backend
+
+  patient-service:
+    build: ./patient-service
+    # cũng không cần override entrypoint ở đây
+    env_file:
+      - .env
+      - ./patient-service/.env
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
+      - rabbitmq
+    networks:
+      - backend
+
+  appointment-service:
+    build: ./appointment-service
+    env_file:
+      - .env
+      - ./appointment-service/.env
+    ports:
+      - "8002:8002"
+    depends_on:
+      - db
+      - rabbitmq
+      - user-service
+      - patient-service
+    networks:
+      - backend
+
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - user-service
+      - patient-service
+    networks:
+      - backend
+
+volumes:
+  db_data:
+
+networks:
+  backend:
