@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from .models import Patient
 from .serializers import PatientSerializer
 import requests
+from rest_framework import status,permissions
+from rest_framework.decorators import action
 
 
 class PatientViewSet(viewsets.ModelViewSet):
@@ -24,3 +26,19 @@ class PatientViewSet(viewsets.ModelViewSet):
         if r.ok:
             data["user_profile"] = r.json()
         return Response(data)
+    
+    @action(detail=False, methods=['get', 'patch'], permission_classes=[permissions.IsAuthenticated])
+    def me(self, request):
+        try:
+            patient = Patient.objects.get(user_id=request.user.id)
+        except Patient.DoesNotExist:
+            return Response({"detail":"No patient record."}, status=status.HTTP_404_NOT_FOUND)
+
+        if request.method == 'GET':
+            return Response(self.get_serializer(patient).data)
+
+        # PATCH
+        serializer = self.get_serializer(patient, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)

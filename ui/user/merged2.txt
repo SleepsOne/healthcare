@@ -2266,3 +2266,1134 @@ window.addEventListener('load', router);
   <script type="module" src="js/router.js"></script>
 </body>
 </html>
+:root {
+  --primary: #4a90e2;
+  --primary-dark: #357abd;
+  --secondary: #2c3e50;
+  --accent: #e74c3c;
+  --success: #2ecc71;
+  --warning: #f1c40f;
+  --error: #e74c3c;
+  --bg: #f5f6fa;
+  --bg-alt: #ffffff;
+  --text: #2c3e50;
+  --text-light: #7f8c8d;
+  --border: #dcdde1;
+  --shadow: 0 2px 10px rgba(0,0,0,0.1);
+  --radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+header, footer { display: none; }
+body.logged-in header,
+body.logged-in footer { display: block; }
+
+.container {
+max-width: 800px;
+margin: 0 auto;
+padding: 1rem;
+}
+
+header, footer {
+background-color: var(--primary);
+color: white;
+padding: 1rem 0;
+}
+header h1 {
+font-size: 1.5rem;
+text-align: center;
+margin-bottom: 1rem;
+}
+
+nav {
+display: flex;
+justify-content: center;
+gap: 1rem;
+}
+
+nav a {
+color: white;
+text-decoration: none;
+padding: 0.5rem 1rem;
+border-radius: var(--radius);
+transition: background-color 0.2s;
+}
+
+nav a.active,
+nav a\:hover {
+background-color: var(--primary-dark);
+}
+
+main {
+flex: 1;
+padding: 1rem 0;
+}
+
+/* Auth Container Styles */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.5rem;
+  transition: var(--transition);
+}
+
+.auth-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-header h2 {
+  color: var(--secondary);
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+}
+
+.forgot-password {
+  color: var(--primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.forgot-password:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.auth-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.auth-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+.message {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  text-align: center;
+  display: none;
+}
+
+.message.error {
+  display: block;
+  background-color: rgba(231, 76, 60, 0.1);
+  color: var(--error);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 1rem;
+  }
+  
+  .auth-card {
+    padding: 1.5rem;
+  }
+  
+  .auth-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .form-options {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Loading Spinner */
+.fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.card {
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+  color: var(--secondary);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary);
+}
+
+.profile-card .card-content p {
+margin-bottom: 0.5rem;
+}
+
+.btn {
+display: inline-block;
+padding: 0.5rem 1rem;
+background-color: var(--accent);
+color: white;
+border: none;
+border-radius: var(--radius);
+cursor: pointer;
+transition: background-color 0.2s, transform 0.1s;
+}
+.btn\:hover {
+background-color: var(--primary-dark);
+transform: translateY(-1px);
+}
+.btn\:active {
+transform: translateY(0);
+}
+
+.table-responsive {
+overflow-x: auto;
+margin: 1rem 0;
+border-radius: var(--radius);
+box-shadow: var(--shadow);
+}
+table {
+width: 100%;
+border-collapse: collapse;
+background: var(--bg-alt);
+}
+th, td {
+padding: 1rem;
+text-align: left;
+border-bottom: 1px solid var(--border);
+}
+th {
+background-color: var(--primary);
+color: white;
+font-weight: 500;
+}
+tbody tr:hover {
+background-color: rgba(74, 144, 226, 0.05);
+}
+
+.status {
+display: inline-block;
+padding: 0.4rem 0.8rem;
+border-radius: 20px;
+font-size: 0.85rem;
+font-weight: 500;
+text-transform: uppercase;
+}
+.status.confirmed { background-color: var(--success); color: white; }
+.status.pending   { background-color: var(--warning); color: var(--secondary); }
+.status.cancelled { background-color: var(--error); color: white; }
+
+footer p {
+text-align: center;
+font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+nav {
+flex-direction: column;
+}
+nav a {
+width: 100%;
+text-align: center;
+}
+.auth-container {
+min-height: calc(100vh - 120px);
+}
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 1rem;
+  }
+
+  .card h2 {
+    font-size: 1.3rem;
+  }
+
+  th, td {
+    padding: 0.8rem;
+  }
+
+  .status {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+// user-ui/js/components/appointments.js
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  if (!app) {
+    console.error('Không tìm thấy element #app');
+    return;
+  }
+
+  app.innerHTML = `
+    <section class="card">
+      <div class="card-header">
+        <h2>Lịch hẹn của bạn</h2>
+        <button id="newAppointmentBtn" class="btn">Đặt lịch mới</button>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Ngày giờ</th>
+              <th>Bác sĩ</th>
+              <th>Chuyên khoa</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="list"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Modal đặt lịch -->
+    <div id="appointmentModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Đặt lịch hẹn mới</h3>
+        <form id="appointmentForm">
+          <div class="form-group">
+            <label for="doctorId">Bác sĩ</label>
+            <select id="doctorId" required>
+              <option value="">Chọn bác sĩ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="scheduledAt">Ngày giờ hẹn</label>
+            <input id="scheduledAt" type="datetime-local" required>
+          </div>
+          <div class="form-group">
+            <label for="reason">Lý do khám</label>
+            <textarea id="reason" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn">Đặt lịch</button>
+        </form>
+      </div>
+    </div>
+  `;
+
+  // Đợi DOM được render xong
+  await new Promise(resolve => setTimeout(resolve, 0));
+
+  // Load danh sách lịch hẹn
+  const list = document.getElementById('list');
+  if (!list) {
+    console.error('Không tìm thấy element #list');
+    return;
+  }
+
+  try {
+    const appointments = await api.getAppointments();
+    for (const a of appointments) {
+      try {
+        // Lấy thông tin bác sĩ
+        const doctor = await api.getDoctor(a.doctor_id);
+        // Lấy thông tin user của bác sĩ từ user service
+        const doctorUser = await api.getUserById(doctor.user_id);
+        
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${a.id}</td>
+          <td>${new Date(a.scheduled_at).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })}</td>
+          <td>${doctorUser.full_name}</td>
+          <td>${doctor.specialty}</td>
+          <td><span class="status ${a.status}">${a.status}</span></td>
+          <td>
+            ${a.status === 'pending' ? 
+              `<button class="btn btn-sm btn-danger" onclick="cancelAppointment(${a.id})">Hủy</button>` : 
+              ''}
+          </td>
+        `;
+        list.append(tr);
+      } catch (err) {
+        console.error(`Lỗi khi tải thông tin lịch hẹn ${a.id}:`, err);
+        // Vẫn hiển thị lịch hẹn với thông tin cơ bản
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${a.id}</td>
+          <td>${new Date(a.scheduled_at).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })}</td>
+          <td>Đang tải...</td>
+          <td>Đang tải...</td>
+          <td><span class="status ${a.status}">${a.status}</span></td>
+          <td>
+            ${a.status === 'pending' ? 
+              `<button class="btn btn-sm btn-danger" onclick="cancelAppointment(${a.id})">Hủy</button>` : 
+              ''}
+          </td>
+        `;
+        list.append(tr);
+      }
+    }
+  } catch (err) {
+    app.innerHTML = `
+      <div class="alert alert-error">
+        <p>Không thể tải lịch hẹn: ${err.message}</p>
+        <button class="btn" onclick="window.location.reload()">Thử lại</button>
+      </div>
+    `;
+    return;
+  }
+
+  // Xử lý modal đặt lịch
+  const modal = document.getElementById('appointmentModal');
+  const btn = document.getElementById('newAppointmentBtn');
+  const span = document.getElementsByClassName('close')[0];
+
+  if (!modal || !btn || !span) {
+    console.error('Không tìm thấy các element của modal');
+    return;
+  }
+
+  btn.onclick = () => {
+    modal.style.display = 'block';
+    loadDoctors();
+  };
+
+  span.onclick = () => {
+    modal.style.display = 'none';
+  };
+
+  window.onclick = (event) => {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  };
+
+  // Load danh sách bác sĩ
+  async function loadDoctors() {
+    const select = document.getElementById('doctorId');
+    if (!select) {
+      console.error('Không tìm thấy element #doctorId');
+      return;
+    }
+
+    try {
+      const doctors = await api.getDoctors();
+      select.innerHTML = '<option value="">Chọn bác sĩ</option>';
+      
+      // Lấy thông tin user cho từng bác sĩ
+      for (const doctor of doctors) {
+        try {
+          // Lấy thông tin user của bác sĩ từ user service
+          const doctorUser = await api.getUserById(doctor.user_id);
+          const option = document.createElement('option');
+          option.value = doctor.id;
+          option.textContent = `${doctorUser.full_name} - ${doctor.specialty}`;
+          select.appendChild(option);
+        } catch (err) {
+          console.error(`Lỗi khi tải thông tin bác sĩ ${doctor.id}:`, err);
+          // Vẫn hiển thị bác sĩ với thông tin cơ bản
+          const option = document.createElement('option');
+          option.value = doctor.id;
+          option.textContent = `Bác sĩ #${doctor.id} - ${doctor.specialty}`;
+          select.appendChild(option);
+        }
+      }
+    } catch (err) {
+      alert('Không thể tải danh sách bác sĩ: ' + err.message);
+    }
+  }
+
+  // Xử lý đặt lịch
+  const form = document.getElementById('appointmentForm');
+  if (!form) {
+    console.error('Không tìm thấy element #appointmentForm');
+    return;
+  }
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+  
+    const doctorId   = parseInt(document.getElementById('doctorId')?.value, 10);
+    const scheduledAt = document.getElementById('scheduledAt')?.value;
+    const reason      = document.getElementById('reason')?.value;
+  
+    if (!doctorId || !scheduledAt || !reason) {
+      alert('Vui lòng điền đầy đủ thông tin');
+      return;
+    }
+  
+    // B-strategy: unwrap the patient array
+    const patients = await api.getCurrentPatient();
+    const patient = Array.isArray(patients) ? patients[0] : patients;
+    if (!patient || !patient.id) {
+      alert('Không tìm thấy hồ sơ bệnh nhân!');
+      return;
+    }
+  
+    // ensure datetime-local has seconds
+    let scheduled = scheduledAt;
+    if (/^\d{4}-\d\d-\d\dT\d\d:\d\d$/.test(scheduled)) {
+      scheduled += ':00';
+    }
+  
+    try {
+      await api.createAppointment({
+        doctor_id:    doctorId,
+        patient_id:   patient.id,
+        scheduled_at: scheduled,
+        status:       'pending'
+      });
+  
+      modal.style.display = 'none';
+      form.reset();
+      render();
+    } catch (err) {
+      alert('Không thể đặt lịch: ' + err.message);
+    }
+  };
+}
+  
+
+window.cancelAppointment = async (id) => {
+  if (!confirm('Bạn có chắc muốn hủy lịch hẹn này?')) return;
+  try {
+    // patch only the status field
+    await api.patchAppointment(id, { status: 'cancelled' });
+    render(); 
+  } catch (err) {
+    alert('Không thể hủy lịch hẹn: ' + err.message);
+  }
+};
+// user-ui/js/components/auth.js
+import { api } from '../api.js';
+
+/**
+ * Hiển thị form đăng nhập
+ */
+export function renderLogin() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <section class="card">
+      <h2>Đăng nhập</h2>
+      <div class="form-group">
+        <label for="username">Tên đăng nhập</label>
+        <input id="username" type="text" placeholder="Nhập tên đăng nhập" />
+      </div>
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <input id="password" type="password" placeholder="Nhập mật khẩu" />
+      </div>
+      <button id="btnLogin" class="btn">Đăng nhập</button>
+      <p class="message" id="msg"></p>
+    </section>
+  `;
+
+  document.getElementById('btnLogin').onclick = async () => {
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value;
+    try {
+      const data = await api.token({ username: u, password: p });
+      localStorage.setItem('accessToken', data.access);
+      localStorage.setItem('refreshToken', data.refresh);
+      window.location.hash = '/profile';
+    } catch (err) {
+      const msgEl = document.getElementById('msg');
+      msgEl.textContent = 'Lỗi đăng nhập: ' + err.message;
+      msgEl.classList.add('error');
+    }
+  };
+}
+
+/**
+ * Hiển thị form đăng ký
+ */
+export function renderRegister() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <section class="card">
+      <h2>Đăng ký</h2>
+      <div class="form-group">
+        <label for="username">Tên đăng nhập</label>
+        <input id="username" type="text" placeholder="Chọn tên đăng nhập" />
+      </div>
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <input id="password" type="password" placeholder="Nhập mật khẩu" />
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Xác nhận mật khẩu</label>
+        <input id="confirmPassword" type="password" placeholder="Nhập lại mật khẩu" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="Nhập email" />
+      </div>
+      <div class="form-group">
+        <label for="fullName">Họ và tên</label>
+        <input id="fullName" type="text" placeholder="Nhập họ và tên" />
+      </div>
+      <button id="btnRegister" class="btn">Đăng ký</button>
+      <p class="message" id="msg"></p>
+    </section>
+  `;
+
+  document.getElementById('btnRegister').onclick = async () => {
+    // … collect username, password, email, fullName …
+
+    try {
+      // 1) create the user
+      const userData = { username, password, email, full_name: fullName };
+      const newUser = await api.createUser(userData);
+
+      // 2) immediately create a patient record for them
+      await api.createPatient({
+        user_id: newUser.id,
+        full_name: fullName,
+        medical_record: '',  // or generate on backend
+        dob: null,
+        address: '',
+        phone: ''
+      });
+
+      // then send them to login
+      window.location.hash = '/login';
+    } catch (err) {
+      const msgEl = document.getElementById('msg');
+      msgEl.textContent = 'Lỗi đăng ký: ' + err.message;
+      msgEl.classList.add('error');
+    }
+  };
+}
+
+function handleLogout() {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  window.location.hash = '/login';
+}
+
+// user-ui/js/components/orders.js
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <section class="card">
+      <h2>Đơn hàng của bạn</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Ngày tạo</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="list"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Modal chi tiết đơn hàng -->
+    <div id="orderModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Chi tiết đơn hàng</h3>
+        <div id="orderDetails"></div>
+      </div>
+    </div>
+  `;
+
+  const list = document.getElementById('list');
+  try {
+    const orders = await api.getOrders();
+    orders.forEach(o => {
+      const tr = document.createElement('tr');
+      const date = o.created_at ? new Date(o.created_at) : new Date();
+      tr.innerHTML = `
+        <td>${o.id}</td>
+        <td>${date.toLocaleDateString('vi-VN')}</td>
+        <td><span class="status ${o.status}">${o.status}</span></td>
+        <td>
+          <button class="btn btn-sm" onclick="viewOrderDetails(${o.id})">Chi tiết</button>
+          ${o.status === 'pending' ? 
+            `<button class="btn btn-sm btn-danger" onclick="cancelOrder(${o.id})">Hủy</button>` : 
+            ''}
+        </td>
+      `;
+      list.append(tr);
+    });
+  } catch (err) {
+    app.innerHTML = `<p class="error">Không thể tải đơn hàng: ${err.message}</p>`;
+  }
+
+  // Xử lý modal chi tiết đơn hàng
+  const modal = document.getElementById('orderModal');
+  const span = document.getElementsByClassName('close')[0];
+
+  span.onclick = () => {
+    modal.style.display = 'none';
+  };
+
+  window.onclick = (event) => {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  };
+}
+
+// Hàm xem chi tiết đơn hàng
+window.viewOrderDetails = async (id) => {
+  const modal = document.getElementById('orderModal');
+  const details = document.getElementById('orderDetails');
+  
+  try {
+    const order = await api.getOrder(id);
+    const date = new Date(order.created_at).toLocaleString('vi-VN');
+    
+    details.innerHTML = `
+      <div class="order-info">
+        <p><strong>Mã đơn hàng:</strong> ${order.id}</p>
+        <p><strong>Ngày tạo:</strong> ${date}</p>
+        <p><strong>Trạng thái:</strong> <span class="status ${order.status}">${order.status}</span></p>
+      </div>
+      <div class="order-items">
+        <h4>Danh sách thuốc</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Tên thuốc</th>
+              <th>Liều lượng</th>
+              <th>Số lượng</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${order.items.map(item => `
+              <tr>
+                <td>${item.medication}</td>
+                <td>${item.dosage}</td>
+                <td>${item.quantity}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+    
+    modal.style.display = 'block';
+  } catch (err) {
+    alert('Không thể tải chi tiết đơn hàng: ' + err.message);
+  }
+};
+
+// Replace your old cancelOrder call:
+window.cancelOrder = async (id) => {
+  if (!confirm('Bạn có chắc muốn hủy đơn hàng này?')) return;
+  try {
+    // patch into the /orders/{id}/status/ endpoint
+    await api.patchOrderStatus(id, 'cancelled');
+    render();
+  } catch (err) {
+    alert('Không thể hủy đơn hàng: ' + err.message);
+  }
+};
+
+// user-ui/js/components/profile.js
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <section class="card profile-card">
+      <h2>Thông tin cá nhân</h2>
+      <div class="card-content">
+        <form id="profileForm">
+          <div class="form-section">
+            <h3>Thông tin tài khoản</h3>
+            <div class="form-group">
+              <label for="username">Tên đăng nhập</label>
+              <input id="username" type="text" readonly>
+            </div>
+            <div class="form-group">
+              <label for="fullName">Họ và tên</label>
+              <input id="fullName" type="text" placeholder="Nhập họ và tên" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="Nhập email" required>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Thông tin bệnh nhân</h3>
+            <div class="form-group">
+              <label for="medicalRecord">Mã hồ sơ bệnh án</label>
+              <input id="medicalRecord" type="text" readonly>
+            </div>
+            <div class="form-group">
+              <label for="phone">Số điện thoại</label>
+              <input id="phone" type="tel" placeholder="Nhập số điện thoại" pattern="[0-9]{10}" required>
+            </div>
+            <div class="form-group">
+              <label for="dob">Ngày sinh</label>
+              <input id="dob" type="date" required>
+            </div>
+            <div class="form-group">
+              <label for="address">Địa chỉ</label>
+              <input id="address" type="text" placeholder="Nhập địa chỉ" required>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.hash = '/appointments'">Xem lịch hẹn</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  `;
+
+  try {
+    // Lấy thông tin user
+    const userData = await api.getCurrentUser();
+    document.getElementById('username').value = userData.username || '';
+    document.getElementById('fullName').value = userData.full_name || '';
+    document.getElementById('email').value = userData.email || '';
+    
+    // Lấy thông tin patient
+    const patientData = await api.getCurrentPatient();
+    document.getElementById('medicalRecord').value = patientData.medical_record || '';
+    document.getElementById('phone').value = patientData.phone || '';
+    document.getElementById('dob').value = patientData.dob || '';
+    document.getElementById('address').value = patientData.address || '';
+
+    // Xử lý form submit
+    document.getElementById('profileForm').onsubmit = async (e) => {
+      e.preventDefault();
+      
+      try {
+        // Cập nhật thông tin user
+        const userData = {
+          full_name: document.getElementById('fullName').value.trim(),
+          email: document.getElementById('email').value.trim()
+        };
+        await api.updateCurrentUser(userData);
+
+        // Cập nhật thông tin patient
+        const patientData = {
+          phone: document.getElementById('phone').value.trim(),
+          dob: document.getElementById('dob').value,
+          address: document.getElementById('address').value.trim()
+        };
+        await api.updateCurrentPatient(patientData);
+
+        // Hiển thị thông báo thành công
+        const successMsg = document.createElement('div');
+        successMsg.className = 'alert alert-success';
+        successMsg.textContent = 'Cập nhật thông tin thành công!';
+        document.querySelector('.form-actions').prepend(successMsg);
+        
+        // Tự động ẩn thông báo sau 3 giây
+        setTimeout(() => successMsg.remove(), 3000);
+      } catch (err) {
+        // Hiển thị thông báo lỗi
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'alert alert-error';
+        errorMsg.textContent = 'Cập nhật thất bại: ' + err.message;
+        document.querySelector('.form-actions').prepend(errorMsg);
+        
+        // Tự động ẩn thông báo sau 3 giây
+        setTimeout(() => errorMsg.remove(), 3000);
+      }
+    };
+  } catch (err) {
+    app.innerHTML = `
+      <div class="alert alert-error">
+        <p>Không thể tải thông tin cá nhân: ${err.message}</p>
+        <button class="btn" onclick="window.location.reload()">Thử lại</button>
+      </div>
+    `;
+  }
+}
+// user-ui/js/api.js
+const BASE_URL = 'http://localhost/api/v1';
+
+async function request(path, method = 'GET', data = null) {
+  const token = localStorage.getItem('accessToken');
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token && { 'Authorization': `Bearer ${token}` })
+  };
+  const opts = { method, headers };
+  if (data) opts.body = JSON.stringify(data);
+
+  const res = await fetch(`${BASE_URL}${path}`, opts);
+
+  if (!res.ok) {
+    // clone the response so we can parse it without consuming the body
+    const payload = await res.clone().json().catch(() => res.clone().text());
+    console.error('API validation error for', path, payload);
+    // include the full JSON or text in the thrown message
+    const message = typeof payload === 'object'
+      ? JSON.stringify(payload)
+      : payload;
+    throw new Error(
+      `${method} ${path} → ${res.status}\n${message}`
+    );
+    }
+  
+  return res.status === 204 ? null : res.json();
+}
+
+export const api = {
+  // ── Auth ─────────────────────────────────────────────────────
+  token: data => request('/token/', 'POST', data),
+  refreshToken: data => request('/token/refresh/', 'POST', data),
+
+  // ── Users ────────────────────────────────────────────────────
+  getCurrentUser: () => request('/users/', 'GET'),
+  getUserById:      id => request(`/users/${id}/`, 'GET'),
+  createUser:      data => request('/users/', 'POST', data),
+  updateCurrentUser: data => request('/users/', 'PATCH', data),
+
+  // ── Patients ─────────────────────────────────────────────────
+  getCurrentPatient: () => request('/patients/', 'GET'),
+  createPatient: data => request('/patients/', 'POST', data),
+  updateCurrentPatient: data => request('/patients/', 'PATCH', data),
+
+  // ── Doctors ──────────────────────────────────────────────────
+  getDoctors: () => request('/doctors/', 'GET'),
+  getDoctor: id => request(`/doctors/${id}/`, 'GET'),
+
+  // ── Appointments ─────────────────────────────────────────────
+  getAppointments: () => request('/appointments/', 'GET'),
+  createAppointment: data => request('/appointments/', 'POST', data),
+  patchAppointment: (id, data) => request(`/appointments/${id}/`, 'PATCH', data),
+
+  // ── Orders ───────────────────────────────────────────────────
+  getOrders: () => request('/orders/', 'GET'),
+  getOrder: id => request(`/orders/${id}/`, 'GET'),
+  patchOrderStatus: (id, status) => request(`/orders/${id}/status/`, 'PATCH', { status }),
+};
+import { renderLogin, renderRegister } from './components/auth.js';
+import { render as rProfile }      from './components/profile.js';
+import { render as rAppointments } from './components/appointments.js';
+import { render as rOrders }       from './components/orders.js';
+
+const routes = {
+'/login':        { fn: renderLogin,    title: 'Đăng nhập'    },
+'/register':     { fn: renderRegister, title: 'Đăng ký'      },
+'/profile':      { fn: rProfile,       title: 'Trang cá nhân' },
+'/appointments': { fn: rAppointments,  title: 'Lịch hẹn'      },
+'/orders':       { fn: rOrders,        title: 'Đơn hàng'      },
+'/logout':       { fn: handleLogout,   title: 'Đăng xuất'    }
+};
+
+function handleLogout() {
+localStorage.removeItem('accessToken');
+window.location.hash = '/login';
+}
+
+function setActiveLink(path) {
+document.querySelectorAll('nav a').forEach(a => {
+const linkPath = a.getAttribute('href').slice(1);
+a.classList.toggle('active', linkPath === path);
+});
+}
+
+function router() {
+const path = location.hash.slice(1) || '/login';
+const route = routes[path];
+const loggedIn = !!localStorage.getItem('accessToken');
+document.body.classList.toggle('logged-in', loggedIn);
+setActiveLink(path);
+document.title = route ? `Người dùng – ${route.title}` : 'Người dùng';
+const app = document.getElementById('app'); app.innerHTML = '';
+if (route) route.fn(); else app.innerHTML = 'Trang không tồn tại.';
+}
+
+window.addEventListener('hashchange', router);
+window.addEventListener('load', router);
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Người dùng – Hệ thống Y tế</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Người dùng</h1>
+      <nav>
+        <a href="#/login">Đăng nhập</a>
+        <a href="#/register">Đăng ký</a>
+        <a href="#/profile">Trang cá nhân</a>
+        <a href="#/appointments">Lịch hẹn</a>
+        <a href="#/orders">Đơn hàng</a>
+        <a href="#/logout">Đăng xuất</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="app">
+    <!-- JS sẽ render component vào đây -->
+  </main>
+
+  <footer>
+    <div class="container">
+      &copy; 2025 Bệnh viện ABCABC – Giao diện người dùng
+    </div>
+  </footer>
+
+  <script type="module" src="js/router.js"></script>
+</body>
+</html>

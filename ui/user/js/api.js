@@ -1,8 +1,9 @@
 // user-ui/js/api.js
 const BASE_URL = 'http://localhost/api/v1';
 
-async function request(path, method = 'GET', data = null) {
-  const token = localStorage.getItem('accessToken');
+async function request(path, method = 'GET', data = null, skipAuth = false) {
+  const rawToken = localStorage.getItem('accessToken');
+  const token    = skipAuth ? null : rawToken;
   const headers = {
     'Content-Type': 'application/json',
     ...(token && { 'Authorization': `Bearer ${token}` })
@@ -30,19 +31,19 @@ async function request(path, method = 'GET', data = null) {
 
 export const api = {
   // ── Auth ─────────────────────────────────────────────────────
-  token: data => request('/token/', 'POST', data),
+  token: data => request('/token/', 'POST', data, true),
   refreshToken: data => request('/token/refresh/', 'POST', data),
 
   // ── Users ────────────────────────────────────────────────────
-  getCurrentUser: () => request('/users/', 'GET'),
+  getCurrentUser: () => request('/users/me/', 'GET'),
   getUserById:      id => request(`/users/${id}/`, 'GET'),
-  createUser:      data => request('/users/', 'POST', data),
+  createUser:      data => request('/users/', 'POST', data, true),
   updateCurrentUser: data => request('/users/', 'PATCH', data),
 
   // ── Patients ─────────────────────────────────────────────────
-  getCurrentPatient: () => request('/patients/', 'GET'),
+  getCurrentPatient: () => request('/patients/me/', 'GET'),
   createPatient: data => request('/patients/', 'POST', data),
-  updateCurrentPatient: data => request('/patients/', 'PATCH', data),
+  updateCurrentPatient: data => request('/patients/me', 'PATCH', data),
 
   // ── Doctors ──────────────────────────────────────────────────
   getDoctors: () => request('/doctors/', 'GET'),

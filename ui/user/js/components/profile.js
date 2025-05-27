@@ -53,65 +53,63 @@ export async function render() {
     </section>
   `;
 
+
+  // --- Fetch & Fill dữ liệu có sẵn ---
   try {
-    // Lấy thông tin user
+    // Lấy thông tin user và fill vào form
     const userData = await api.getCurrentUser();
-    document.getElementById('username').value = userData.username || '';
-    document.getElementById('fullName').value = userData.full_name || '';
-    document.getElementById('email').value = userData.email || '';
-    
-    // Lấy thông tin patient
+    console.log('fetched userData:', userData);
+    document.getElementById('username').value    = userData.username || '';
+    document.getElementById('fullName').value    = userData.full_name || '';
+    document.getElementById('email').value       = userData.email || '';
+
+    // Lấy thông tin patient và fill
     const patientData = await api.getCurrentPatient();
     document.getElementById('medicalRecord').value = patientData.medical_record || '';
-    document.getElementById('phone').value = patientData.phone || '';
-    document.getElementById('dob').value = patientData.dob || '';
-    document.getElementById('address').value = patientData.address || '';
-
-    // Xử lý form submit
-    document.getElementById('profileForm').onsubmit = async (e) => {
-      e.preventDefault();
-      
-      try {
-        // Cập nhật thông tin user
-        const userData = {
-          full_name: document.getElementById('fullName').value.trim(),
-          email: document.getElementById('email').value.trim()
-        };
-        await api.updateCurrentUser(userData);
-
-        // Cập nhật thông tin patient
-        const patientData = {
-          phone: document.getElementById('phone').value.trim(),
-          dob: document.getElementById('dob').value,
-          address: document.getElementById('address').value.trim()
-        };
-        await api.updateCurrentPatient(patientData);
-
-        // Hiển thị thông báo thành công
-        const successMsg = document.createElement('div');
-        successMsg.className = 'alert alert-success';
-        successMsg.textContent = 'Cập nhật thông tin thành công!';
-        document.querySelector('.form-actions').prepend(successMsg);
-        
-        // Tự động ẩn thông báo sau 3 giây
-        setTimeout(() => successMsg.remove(), 3000);
-      } catch (err) {
-        // Hiển thị thông báo lỗi
-        const errorMsg = document.createElement('div');
-        errorMsg.className = 'alert alert-error';
-        errorMsg.textContent = 'Cập nhật thất bại: ' + err.message;
-        document.querySelector('.form-actions').prepend(errorMsg);
-        
-        // Tự động ẩn thông báo sau 3 giây
-        setTimeout(() => errorMsg.remove(), 3000);
-      }
-    };
+    document.getElementById('phone').value         = patientData.phone         || '';
+    document.getElementById('dob').value           = patientData.dob           || '';
+    document.getElementById('address').value       = patientData.address       || '';
   } catch (err) {
+    console.error('Không thể load thông tin cá nhân:', err);
     app.innerHTML = `
       <div class="alert alert-error">
         <p>Không thể tải thông tin cá nhân: ${err.message}</p>
         <button class="btn" onclick="window.location.reload()">Thử lại</button>
       </div>
     `;
+    return;
   }
+
+  // Xử lý khi submit form
+  document.getElementById('profileForm').onsubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Cập nhật user
+      await api.updateCurrentUser({
+        full_name: document.getElementById('fullName').value.trim(),
+        email:     document.getElementById('email').value.trim()
+      });
+
+      // Cập nhật patient
+      await api.updateCurrentPatient({
+        phone:   document.getElementById('phone').value.trim(),
+        dob:     document.getElementById('dob').value,
+        address: document.getElementById('address').value.trim()
+      });
+
+      // Thông báo thành công
+      const successMsg = document.createElement('div');
+      successMsg.className = 'alert alert-success';
+      successMsg.textContent = 'Cập nhật thông tin thành công!';
+      document.querySelector('.form-actions').prepend(successMsg);
+      setTimeout(() => successMsg.remove(), 3000);
+    } catch (err) {
+      const errorMsg = document.createElement('div');
+      errorMsg.className = 'alert alert-error';
+      errorMsg.textContent = 'Cập nhật thất bại: ' + err.message;
+      document.querySelector('.form-actions').prepend(errorMsg);
+      setTimeout(() => errorMsg.remove(), 3000);
+    }
+  };
 }
+

@@ -46,3 +46,27 @@
 
 ---- D:\healthcare\front-end\user\user.html ----
 
+
+---- D:\healthcare\ui\user\css\styles.css ----
+
+
+---- D:\healthcare\ui\user\js\components\appointments.js ----
+
+
+---- D:\healthcare\ui\user\js\components\auth.js ----
+
+
+---- D:\healthcare\ui\user\js\components\orders.js ----
+
+
+---- D:\healthcare\ui\user\js\components\profile.js ----
+
+
+---- D:\healthcare\ui\user\js\api.js ----
+
+
+---- D:\healthcare\ui\user\js\router.js ----
+
+
+---- D:\healthcare\ui\user\user.html ----
+

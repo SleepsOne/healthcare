@@ -73,27 +73,57 @@ export function renderRegister() {
 
   document.getElementById('btnRegister').onclick = async () => {
     // … collect username, password, email, fullName …
+    const username        = document.getElementById('username').value.trim();
+    const password        = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const email           = document.getElementById('email').value.trim();
+    const fullName        = document.getElementById('fullName').value.trim();
+
+    if (!username || !password || !email || !fullName) {
+      return showError('Vui lòng điền đầy đủ các trường');
+    }
+    if (password !== confirmPassword) {
+      return showError('Mật khẩu và xác nhận không khớp');
+    }
+
+
+    console.log(
+      JSON.stringify({
+        username,
+        password,
+        email,
+        full_name: fullName
+      }, null, 2)
+    );
 
     try {
-      // 1) create the user
-      const userData = { username, password, email, full_name: fullName };
-      const newUser = await api.createUser(userData);
-
-      // 2) immediately create a patient record for them
-      await api.createPatient({
-        user_id: newUser.id,
-        full_name: fullName,
-        medical_record: '',  // or generate on backend
-        dob: null,
-        address: '',
-        phone: ''
+      // 3️⃣ Gọi API với payload hợp lệ
+      const newUser = await api.createUser({
+        username,
+        password,
+        email,
+        full_name: fullName
       });
 
-      // then send them to login
+      // 4️⃣ Tạo luôn record Patient (nếu cần)
+      await api.createPatient({
+        user_id:       newUser.id,
+        full_name:     fullName,
+        medical_record:'',
+        dob:           null,
+        address:       '',
+        phone:         ''
+      });
+
+      // Chuyển về login
       window.location.hash = '/login';
     } catch (err) {
+      showError('Lỗi đăng ký: ' + err.message);
+    }
+
+    function showError(text) {
       const msgEl = document.getElementById('msg');
-      msgEl.textContent = 'Lỗi đăng ký: ' + err.message;
+      msgEl.textContent = text;
       msgEl.classList.add('error');
     }
   };
