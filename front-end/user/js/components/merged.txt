@@ -1,0 +1,12 @@
+
+---- D:\healthcare\front-end\user\js\components\appointments.js ----
+
+
+---- D:\healthcare\front-end\user\js\components\auth.js ----
+
+
+---- D:\healthcare\front-end\user\js\components\orders.js ----
+
+
+---- D:\healthcare\front-end\user\js\components\profile.js ----
+
