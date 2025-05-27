@@ -1,0 +1,969 @@
+
+---- D:\healthcare\front-end\js\components\appointments.js ----
+
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1>Appointments</h1>
+    <button id="new">New</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Patient</th><th>Doctor</th><th>Time</th><th>Status</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <div id="form"></div>
+  `;
+
+  const list = document.getElementById('list');
+  (await api.list('appointments')).forEach(a => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${a.id}</td>
+      <td>${a.patient_id}</td>
+      <td>${a.doctor_id}</td>
+      <td>${new Date(a.scheduled_at).toLocaleString()}</td>
+      <td>${a.status}</td>
+      <td>
+        <button class="e" data-id="${a.id}">E</button>
+        <button class="d" data-id="${a.id}">D</button>
+      </td>
+    `;
+    list.append(tr);
+  });
+
+  document.getElementById('new').onclick = () => showForm();
+  list.onclick = e => {
+    if (e.target.classList.contains('e')) showForm(e.target.dataset.id);
+    if (e.target.classList.contains('d')) {
+      api.del('appointments', e.target.dataset.id).then(render);
+    }
+  };
+}
+
+async function showForm(id) {
+  const c = document.getElementById('form');
+  let d = { patient_id:'', doctor_id:'', scheduled_at:'', status:'pending' };
+  if (id) d = await api.get('appointments', id);
+
+  c.innerHTML = `
+    <h2>${id? 'Edit':'New'} Appointment</h2>
+    <div class="form-group">
+      <label>Patient ID</label>
+      <input id="pf" value="${d.patient_id}">
+    </div>
+    <div class="form-group">
+      <label>Doctor ID</label>
+      <input id="df" value="${d.doctor_id}">
+    </div>
+    <div class="form-group">
+      <label>Scheduled At</label>
+      <input id="sf" type="datetime-local" value="${d.scheduled_at?.slice(0,16)||''}">
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select id="st">
+        <option value="pending">pending</option>
+        <option value="confirmed">confirmed</option>
+        <option value="cancelled">cancelled</option>
+      </select>
+    </div>
+    <button id="sv">Save</button>
+  `;
+  document.getElementById('st').value = d.status;
+
+  document.getElementById('sv').onclick = async () => {
+    const payload = {
+      patient_id: +pf.value,
+      doctor_id:  +df.value,
+      scheduled_at: new Date(sf.value).toISOString(),
+      status: st.value,
+    };
+    if (id) await api.update('appointments', id, payload);
+    else   await api.create('appointments', payload);
+    c.innerHTML = '';
+    render();
+  };
+}
+
+---- D:\healthcare\front-end\js\components\doctors.js ----
+
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1>Doctors</h1>
+    <button id="new">New</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>User ID</th><th>Specialty</th><th>Bio</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <div id="form"></div>
+  `;
+
+  const list = document.getElementById('list');
+  (await api.list('doctors')).forEach(d => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${d.id}</td>
+      <td>${d.user_id}</td>
+      <td>${d.specialty}</td>
+      <td>${d.bio || ''}</td>
+      <td>
+        <button class="e" data-id="${d.id}">E</button>
+        <button class="d" data-id="${d.id}">D</button>
+      </td>
+    `;
+    list.append(tr);
+  });
+
+  document.getElementById('new').onclick = () => showForm();
+  list.onclick = e => {
+    if (e.target.classList.contains('e')) showForm(e.target.dataset.id);
+    if (e.target.classList.contains('d')) {
+      api.del('doctors', e.target.dataset.id).then(render);
+    }
+  };
+}
+
+async function showForm(id) {
+  const c = document.getElementById('form');
+  let d = { user_id:'', specialty:'', bio:'' };
+  if (id) d = await api.get('doctors', id);
+
+  c.innerHTML = `
+    <h2>${id? 'Edit':'New'} Doctor</h2>
+    <div class="form-group">
+      <label>User ID</label>
+      <input id="uf" value="${d.user_id}">
+    </div>
+    <div class="form-group">
+      <label>Specialty</label>
+      <input id="spf" value="${d.specialty}">
+    </div>
+    <div class="form-group">
+      <label>Bio</label>
+      <textarea id="bf">${d.bio || ''}</textarea>
+    </div>
+    <button id="sv">Save</button>
+  `;
+  
+  document.getElementById('sv').onclick = async () => {
+    const payload = {
+      user_id: +uf.value,
+      specialty: spf.value,
+      bio: bf.value
+    };
+    if (id) await api.update('doctors', id, payload);
+    else    await api.create('doctors', payload);
+    c.innerHTML = '';
+    render();
+  };
+}
+
+---- D:\healthcare\front-end\js\components\login.js ----
+
+import { api } from '../api.js';
+
+export function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1>Login</h1>
+    <div class="form-group">
+      <label>Username</label>
+      <input id="username" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input id="password" type="password" />
+    </div>
+    <button id="btnLogin">Login</button>
+    <div id="msg"></div>
+  `;
+
+  document.getElementById('btnLogin').onclick = async () => {
+    const u = username.value;
+    const p = password.value;
+    try {
+      const data = await api.token({ username: u, password: p });
+      localStorage.setItem('accessToken', data.access);
+      localStorage.setItem('refreshToken', data.refresh);
+      msg.textContent = 'Login successful!';
+      location.hash = '/appointments';
+    } catch (err) {
+      msg.textContent = 'Login failed: ' + err.message;
+    }
+  };
+}
+
+---- D:\healthcare\front-end\js\components\medications.js ----
+
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1>Medications</h1>
+    <button id="new">New</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Name</th><th>Dosage</th><th>Strength</th><th>Price</th><th>Stock</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <div id="form"></div>
+  `;
+
+  const list = document.getElementById('list');
+  (await api.list('medications')).forEach(m => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${m.id}</td>
+      <td>${m.name}</td>
+      <td>${m.dosage_form}</td>
+      <td>${m.strength}</td>
+      <td>${m.price}</td>
+      <td>${m.stock}</td>
+      <td>
+        <button class="e" data-id="${m.id}">E</button>
+        <button class="d" data-id="${m.id}">D</button>
+      </td>
+    `;
+    list.append(tr);
+  });
+
+  document.getElementById('new').onclick = () => showForm();
+  list.onclick = e => {
+    if (e.target.classList.contains('e')) showForm(e.target.dataset.id);
+    if (e.target.classList.contains('d')) {
+      api.del('medications', e.target.dataset.id).then(render);
+    }
+  };
+}
+
+async function showForm(id) {
+  const c = document.getElementById('form');
+  let m = {
+    name:'', description:'', dosage_form:'',
+    strength:'', price:'', stock:''
+  };
+  if (id) m = await api.get('medications', id);
+
+  c.innerHTML = `
+    <h2>${id? 'Edit':'New'} Medication</h2>
+    <div class="form-group">
+      <label>Name</label>
+      <input id="nm" value="${m.name}">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="ds">${m.description || ''}</textarea>
+    </div>
+    <div class="form-group">
+      <label>Dosage</label>
+      <input id="dos" value="${m.dosage_form}">
+    </div>
+    <div class="form-group">
+      <label>Strength</label>
+      <input id="stg" value="${m.strength}">
+    </div>
+    <div class="form-group">
+      <label>Price</label>
+      <input id="pr" value="${m.price}">
+    </div>
+    <div class="form-group">
+      <label>Stock</label>
+      <input id="sk" type="number" value="${m.stock}">
+    </div>
+    <button id="sv">Save</button>
+  `;
+
+  document.getElementById('sv').onclick = async () => {
+    const payload = {
+      name: nm.value,
+      description: ds.value,
+      dosage_form: dos.value,
+      strength: stg.value,
+      price: pr.value,
+      stock: +sk.value
+    };
+    if (id) await api.update('medications', id, payload);
+    else    await api.create('medications', payload);
+    c.innerHTML = '';
+    render();
+  };
+}
+
+---- D:\healthcare\front-end\js\components\order-items.js ----
+
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1>Order Items</h1>
+    <button id="new">New</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Medication</th><th>Dosage</th><th>Quantity</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <div id="form"></div>
+  `;
+
+  const list = document.getElementById('list');
+  (await api.list('order-items')).forEach(o => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${o.medication}</td>
+      <td>${o.dosage}</td>
+      <td>${o.quantity}</td>
+      <td>
+        <button class="e" data-id="${o.id}">E</button>
+        <button class="d" data-id="${o.id}">D</button>
+      </td>
+    `;
+    list.append(tr);
+  });
+
+  document.getElementById('new').onclick = () => showForm();
+  list.onclick = e => {
+    if (e.target.classList.contains('e')) showForm(e.target.dataset.id);
+    if (e.target.classList.contains('d')) {
+      api.del('order-items', e.target.dataset.id).then(render);
+    }
+  };
+}
+
+async function showForm(id) {
+  const c = document.getElementById('form');
+  let o = { medication:'', dosage:'', quantity:'' };
+  if (id) o = await api.get('order-items', id);
+
+  c.innerHTML = `
+    <h2>${id? 'Edit':'New'} Item</h2>
+    <div class="form-group">
+      <label>Medication</label>
+      <input id="md" value="${o.medication}">
+    </div>
+    <div class="form-group">
+      <label>Dosage</label>
+      <input id="dg" value="${o.dosage}">
+    </div>
+    <div class="form-group">
+      <label>Quantity</label>
+      <input id="qt" type="number" value="${o.quantity}">
+    </div>
+    <button id="sv">Save</button>
+  `;
+
+  document.getElementById('sv').onclick = async () => {
+    const payload = {
+      medication: md.value,
+      dosage: dg.value,
+      quantity: +qt.value
+    };
+    if (id) await api.update('order-items', id, payload);
+    else    await api.create('order-items', payload);
+    c.innerHTML = '';
+    render();
+  };
+}
+
+---- D:\healthcare\front-end\js\components\orders.js ----
+
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1>Orders</h1>
+    <button id="new">New</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Patient</th><th>Doctor</th><th>Items</th><th>Status</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <div id="form"></div>
+  `;
+
+  const list = document.getElementById('list');
+  (await api.list('orders')).forEach(o => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${o.id}</td>
+      <td>${o.patient_id}</td>
+      <td>${o.doctor_id}</td>
+      <td>${o.items.map(i => i.medication).join(', ')}</td>
+      <td>${o.status}</td>
+      <td>
+        <button class="e" data-id="${o.id}">E</button>
+        <button class="d" data-id="${o.id}">D</button>
+      </td>
+    `;
+    list.append(tr);
+  });
+
+  document.getElementById('new').onclick = () => showForm();
+  list.onclick = e => {
+    if (e.target.classList.contains('e')) showForm(e.target.dataset.id);
+    if (e.target.classList.contains('d')) {
+      api.del('orders', e.target.dataset.id).then(render);
+    }
+  };
+}
+
+async function showForm(id) {
+  const c = document.getElementById('form');
+  let o = {
+    patient_id:'', doctor_id:'', prescription_id:'',
+    status:'pending', items:[]
+  };
+  if (id) o = await api.get('orders', id);
+
+  c.innerHTML = `
+    <h2>${id? 'Edit':'New'} Order</h2>
+    <div class="form-group">
+      <label>Patient ID</label>
+      <input id="pf" value="${o.patient_id}">
+    </div>
+    <div class="form-group">
+      <label>Doctor ID</label>
+      <input id="df" value="${o.doctor_id}">
+    </div>
+    <div class="form-group">
+      <label>Prescription ID</label>
+      <input id="prf" value="${o.prescription_id}">
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select id="st">
+        <option value="pending">pending</option>
+        <option value="filled">filled</option>
+        <option value="cancelled">cancelled</option>
+      </select>
+    </div>
+    <button id="sv">Save</button>
+  `;
+  document.getElementById('st').value = o.status;
+
+  document.getElementById('sv').onclick = async () => {
+    const payload = {
+      patient_id: +pf.value,
+      doctor_id:  +df.value,
+      prescription_id: +prf.value,
+      status: st.value,
+      items: o.items
+    };
+    if (id) await api.update('orders', id, payload);
+    else    await api.create('orders', payload);
+    c.innerHTML = '';
+    render();
+  };
+}
+
+---- D:\healthcare\front-end\js\components\patients.js ----
+
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1>Patients</h1>
+    <button id="new">New</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>User ID</th><th>MRN</th><th>Name</th><th>DOB</th><th>Phone</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <div id="form"></div>
+  `;
+
+  const list = document.getElementById('list');
+  (await api.list('patients')).forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${p.id}</td>
+      <td>${p.user_id || ''}</td>
+      <td>${p.medical_record}</td>
+      <td>${p.full_name}</td>
+      <td>${p.dob}</td>
+      <td>${p.phone}</td>
+      <td>
+        <button class="e" data-id="${p.id}">E</button>
+        <button class="d" data-id="${p.id}">D</button>
+      </td>
+    `;
+    list.append(tr);
+  });
+
+  document.getElementById('new').onclick = () => showForm();
+  list.onclick = e => {
+    if (e.target.classList.contains('e')) showForm(e.target.dataset.id);
+    if (e.target.classList.contains('d')) {
+      api.del('patients', e.target.dataset.id).then(render);
+    }
+  };
+}
+
+async function showForm(id) {
+  const c = document.getElementById('form');
+  let p = {
+    user_id:'', medical_record:'', full_name:'',
+    dob:'', address:'', phone:''
+  };
+  if (id) p = await api.get('patients', id);
+
+  c.innerHTML = `
+    <h2>${id? 'Edit':'New'} Patient</h2>
+    <div class="form-group">
+      <label>User ID</label>
+      <input id="uf" value="${p.user_id || ''}">
+    </div>
+    <div class="form-group">
+      <label>MRN</label>
+      <input id="mf" value="${p.medical_record}">
+    </div>
+    <div class="form-group">
+      <label>Name</label>
+      <input id="nf" value="${p.full_name}">
+    </div>
+    <div class="form-group">
+      <label>DOB</label>
+      <input id="df" type="date" value="${p.dob}">
+    </div>
+    <div class="form-group">
+      <label>Address</label>
+      <input id="af" value="${p.address || ''}">
+    </div>
+    <div class="form-group">
+      <label>Phone</label>
+      <input id="phf" value="${p.phone}">
+    </div>
+    <button id="sv">Save</button>
+  `;
+
+  document.getElementById('sv').onclick = async () => {
+    const payload = {
+      user_id: uf.value || null,
+      medical_record: mf.value,
+      full_name: nf.value,
+      dob: df.value,
+      address: af.value,
+      phone: phf.value
+    };
+    if (id) await api.update('patients', id, payload);
+    else    await api.create('patients', payload);
+    c.innerHTML = '';
+    render();
+  };
+}
+
+---- D:\healthcare\front-end\js\components\prescriptions.js ----
+
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1>Prescriptions</h1>
+    <button id="new">New</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Appointment</th><th>Patient</th><th>Doctor</th><th>Items</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <div id="form"></div>
+  `;
+
+  const list = document.getElementById('list');
+  (await api.list('prescriptions')).forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${p.id}</td>
+      <td>${p.appointment_id}</td>
+      <td>${p.patient_id}</td>
+      <td>${p.doctor_id}</td>
+      <td>${p.items.map(i => i.medication).join(', ')}</td>
+      <td>
+        <button class="e" data-id="${p.id}">E</button>
+        <button class="d" data-id="${p.id}">D</button>
+      </td>
+    `;
+    list.append(tr);
+  });
+
+  document.getElementById('new').onclick = () => showForm();
+  list.onclick = e => {
+    if (e.target.classList.contains('e')) showForm(e.target.dataset.id);
+    if (e.target.classList.contains('d')) {
+      api.del('prescriptions', e.target.dataset.id).then(render);
+    }
+  };
+}
+
+async function showForm(id) {
+  const c = document.getElementById('form');
+  let p = { appointment_id:'', patient_id:'', doctor_id:'', notes:'', items:[] };
+  if (id) p = await api.get('prescriptions', id);
+
+  c.innerHTML = `
+    <h2>${id? 'Edit':'New'} Prescription</h2>
+    <div class="form-group">
+      <label>Appointment ID</label>
+      <input id="af" value="${p.appointment_id}">
+    </div>
+    <div class="form-group">
+      <label>Patient ID</label>
+      <input id="pf" value="${p.patient_id}">
+    </div>
+    <div class="form-group">
+      <label>Doctor ID</label>
+      <input id="df" value="${p.doctor_id}">
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea id="nf">${p.notes || ''}</textarea>
+    </div>
+    <button id="sv">Save</button>
+  `;
+
+  document.getElementById('sv').onclick = async () => {
+    const payload = {
+      appointment_id: +af.value,
+      patient_id:     +pf.value,
+      doctor_id:      +df.value,
+      notes:          nf.value,
+      items:          p.items
+    };
+    if (id) await api.update('prescriptions', id, payload);
+    else    await api.create('prescriptions', payload);
+    c.innerHTML = '';
+    render();
+  };
+}
+
+---- D:\healthcare\front-end\js\components\register.js ----
+
+import { api } from '../api.js';
+
+export function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1>Register</h1>
+    <div class="form-group">
+      <label>Username</label>
+      <input id="username" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input id="password" type="password" />
+    </div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input id="fullName" />
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input id="email" type="email" />
+    </div>
+    <button id="btnRegister">Register</button>
+    <div id="msg"></div>
+  `;
+
+  document.getElementById('btnRegister').onclick = async () => {
+    const payload = {
+      username: username.value,
+      password: password.value,
+      full_name: fullName.value,
+      email:    email.value,
+    };
+    try {
+      await api.create('users', payload);
+      msg.textContent = 'Registration successful! Please log in.';
+      location.hash = '/login';
+    } catch (err) {
+      msg.textContent = 'Register failed: ' + err.message;
+    }
+  };
+}
+
+---- D:\healthcare\front-end\js\components\users.js ----
+
+import { api } from '../api.js';
+
+export async function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1>Users</h1>
+    <button id="new">New</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Username</th><th>Full Name</th><th>Email</th><th>DOB</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <div id="form"></div>
+  `;
+
+  const list = document.getElementById('list');
+  (await api.list('users')).forEach(u => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${u.id}</td>
+      <td>${u.username}</td>
+      <td>${u.full_name}</td>
+      <td>${u.email}</td>
+      <td>${u.dob || ''}</td>
+      <td>
+        <button class="e" data-id="${u.id}">E</button>
+        <button class="d" data-id="${u.id}">D</button>
+      </td>
+    `;
+    list.append(tr);
+  });
+
+  document.getElementById('new').onclick = () => showForm();
+  list.onclick = e => {
+    if (e.target.classList.contains('e')) showForm(e.target.dataset.id);
+    if (e.target.classList.contains('d')) {
+      api.del('users', e.target.dataset.id).then(render);
+    }
+  };
+}
+
+async function showForm(id) {
+  const c = document.getElementById('form');
+  let u = { username:'', password:'', full_name:'', email:'', dob:'' };
+  if (id) u = await api.get('users', id);
+
+  c.innerHTML = `
+    <h2>${id? 'Edit':'New'} User</h2>
+    <div class="form-group">
+      <label>Username</label>
+      <input id="un" value="${u.username}">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input id="pw" type="password">
+    </div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input id="fn" value="${u.full_name}">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input id="em" type="email" value="${u.email}">
+    </div>
+    <div class="form-group">
+      <label>DOB</label>
+      <input id="db" type="date" value="${u.dob || ''}">
+    </div>
+    <button id="sv">Save</button>
+  `;
+
+  document.getElementById('sv').onclick = async () => {
+    const payload = {
+      username: un.value,
+      password: pw.value || undefined,
+      full_name: fn.value,
+      email: em.value,
+      dob: db.value || null
+    };
+    if (id) await api.update('users', id, payload);
+    else    await api.create('users', payload);
+    c.innerHTML = '';
+    render();
+  };
+}
+
+---- D:\healthcare\front-end\js\api.js ----
+
+const BASE = 'http://127.0.0.1/api/v1';
+
+async function request(path, method = 'GET', data) {
+  const headers = { 'Content-Type': 'application/json' };
+  const token = localStorage.getItem('accessToken');
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+
+  const opts = { method, headers };
+  if (data) opts.body = JSON.stringify(data);
+
+  const res = await fetch(BASE + path, opts);
+  if (!res.ok) throw new Error(`${method} ${path} → ${res.status}`);
+  return res.status === 204 ? null : res.json();
+}
+
+export const api = {
+  list:   e      => request(`/${e}/`),
+  get:    (e, id)=> request(`/${e}/${id}/`),
+  create: (e, o) => request(`/${e}/`, 'POST', o),
+  update: (e,i,o)=> request(`/${e}/${i}/`, 'PUT', o),
+  patch:  (e,i,o)=> request(`/${e}/${i}/`, 'PATCH', o),
+  del:    (e,i) => request(`/${e}/${i}/`, 'DELETE'),
+  token:  creds  => request('/token/', 'POST', creds),  // login
+};
+
+---- D:\healthcare\front-end\js\router.js ----
+
+import { render as rLogin }    from './components/login.js';
+import { render as rRegister } from './components/register.js';
+import { render as rA }        from './components/appointments.js';
+import { render as rD }        from './components/doctors.js';
+import { render as rP }        from './components/patients.js';
+import { render as rM }        from './components/medications.js';
+import { render as rOI }       from './components/order-items.js';
+import { render as rO }        from './components/orders.js';
+import { render as rPR }       from './components/prescriptions.js';
+import { render as rU }        from './components/users.js';
+
+const routes = {
+  '/login':       rLogin,
+  '/register':    rRegister,
+  '/appointments': rA,
+  '/doctors':      rD,
+  '/patients':     rP,
+  '/medications':  rM,
+  '/order-items':  rOI,
+  '/orders':       rO,
+  '/prescriptions':rPR,
+  '/users':        rU,
+};
+
+function router() {
+  const path = location.hash.slice(1) || '/login';
+  const fn = routes[path];
+  document.getElementById('app').innerHTML = '';
+  if (fn) fn();
+  else document.getElementById('app').innerHTML = '<h2>Not Found</h2>';
+}
+
+window.addEventListener('hashchange', router);
+window.addEventListener('load', router);
+
+---- D:\healthcare\front-end\index.html ----
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Admin</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <a href="#/login">Login</a>
+    <a href="#/register">Register</a>
+    <a href="#/appointments">Appointments</a>
+    <a href="#/doctors">Doctors</a>
+    <a href="#/patients">Patients</a>
+    <a href="#/medications">Medications</a>
+    <a href="#/order-items">Order Items</a>
+    <a href="#/orders">Orders</a>
+    <a href="#/prescriptions">Prescriptions</a>
+    <a href="#/users">Users</a>
+  </nav>
+
+  <main id="app"></main>
+
+  <script type="module" src="js/router.js"></script>
+</body>
+</html>
+
+---- D:\healthcare\front-end\styles.css ----
+
+:root {
+    --primary: #2c3e50;
+    --accent: #3498db;
+    --bg: #ecf0f1;
+    --text: #333;
+    --gap: 1rem;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  nav {
+    display: flex;
+    background: var(--primary);
+    padding: var(--gap);
+  }
+  nav a {
+    color: white;
+    margin-right: var(--gap);
+    text-decoration: none;
+  }
+  nav a:hover {
+    text-decoration: underline;
+  }
+  main {
+    padding: var(--gap);
+  }
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--gap);
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+  }
+  th {
+    background: var(--accent);
+    color: white;
+  }
+  /* Form */
+  .form-group {
+    margin-bottom: var(--gap);
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+  }
+  button {
+    padding: 0.6rem 1.2rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    opacity: 0.9;
+  }
+  

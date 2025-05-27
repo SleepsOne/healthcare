@@ -28,6 +28,8 @@ services:
       - rabbitmq
     networks:
       - backend
+    volumes:
+      - ./docs/user:/app/docs
 
   patient-service:
     build: ./patient-service
@@ -42,6 +44,8 @@ services:
       - rabbitmq
     networks:
       - backend
+    volumes:
+      - ./docs/patient:/app/docs
 
   appointment-service:
     build: ./appointment-service
@@ -57,6 +61,8 @@ services:
       - patient-service
     networks:
       - backend
+    volumes:
+      - ./docs/appointment:/app/docs
 
   doctor-service:
     build: ./doctor-service
@@ -71,6 +77,8 @@ services:
       - user-service
     networks:
       - backend
+    volumes:
+      - ./docs/doctor:/app/docs
 
   notification-service:
     build: ./notification-service
@@ -85,6 +93,7 @@ services:
     # nếu có API, expose port
     ports:
       - "8004:8004"
+  
 
   prescription-service:
     build: ./prescription-service
@@ -101,6 +110,27 @@ services:
       - doctor-service  # Thêm dependency này vì prescription liên quan đến bác sĩ
     networks:
       - backend
+    volumes:
+      - ./docs/prescription:/app/docs
+
+  pharmacy-service:
+    build: ./pharmacy-service
+    env_file:
+      - .env
+      - ./pharmacy-service/.env
+    ports:
+      - "8006:8006"
+    depends_on:
+      - db
+      - rabbitmq
+      - user-service
+      - patient-service
+      - doctor-service
+      - prescription-service
+    networks:
+      - backend
+    volumes:
+      - ./docs/pharmacy:/app/docs
 
 
 
@@ -114,6 +144,11 @@ services:
       - user-service
       - patient-service
       - prescription-service  # Thêm dependency này
+      - pharmacy-service
+      - appointment-service
+      - doctor-service
+      - notification-service
+      
     networks:
       - backend
 

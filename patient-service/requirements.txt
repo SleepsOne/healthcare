@@ -4,3 +4,4 @@ djangorestframework-simplejwt
 psycopg2-binary
 django-environ
 requests
+drf-spectacular

@@ -5,3 +5,4 @@ django-environ
 requests
 psycopg2-binary
 pika
+drf-spectacular

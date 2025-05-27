@@ -1,15 +1,18 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from prescriptions.views import PrescriptionViewSet
+from medications.views import MedicationViewSet, OrderViewSet, OrderItemViewSet
 
 router = DefaultRouter()
-router.register(r'prescriptions', PrescriptionViewSet, basename='prescription')
+router.register(r"medications", MedicationViewSet)
+router.register(r"orders", OrderViewSet, basename="order")
+router.register(r"order-items", OrderItemViewSet, basename="order-item")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", include(router.urls)),
 ]
+
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
 urlpatterns += [
