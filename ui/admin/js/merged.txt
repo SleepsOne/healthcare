@@ -37,3 +37,42 @@
 
 ---- D:\healthcare\ui\admin\js\router.js ----
 
+
+---- D:\healthcare\ui\admin\js\components\appointments.js ----
+
+
+---- D:\healthcare\ui\admin\js\components\doctors.js ----
+
+
+---- D:\healthcare\ui\admin\js\components\login.js ----
+
+
+---- D:\healthcare\ui\admin\js\components\logout.js ----
+
+
+---- D:\healthcare\ui\admin\js\components\medications.js ----
+
+
+---- D:\healthcare\ui\admin\js\components\order-items.js ----
+
+
+---- D:\healthcare\ui\admin\js\components\orders.js ----
+
+
+---- D:\healthcare\ui\admin\js\components\patients.js ----
+
+
+---- D:\healthcare\ui\admin\js\components\prescriptions.js ----
+
+
+---- D:\healthcare\ui\admin\js\components\register.js ----
+
+
+---- D:\healthcare\ui\admin\js\components\users.js ----
+
+
+---- D:\healthcare\ui\admin\js\api.js ----
+
+
+---- D:\healthcare\ui\admin\js\router.js ----
+

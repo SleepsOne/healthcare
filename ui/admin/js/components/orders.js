@@ -1,5 +1,7 @@
 import { api } from '../api.js';
 
+let orderState = null;
+
 export async function render() {
   const app = document.getElementById('app');
   app.innerHTML = `
@@ -56,12 +58,12 @@ export async function render() {
 async function showForm(id) {
   const c = document.getElementById('form');
   let o = { patient_id: '', doctor_id: '', prescription_id: '', status: 'pending', items: [] };
-  if (id) {
-    o = await api.get('orders', id);
-    renderOrderForm(c, o, true);
-  } else {
-    renderOrderForm(c, o, false);
-  }
+  if (id) o = await api.get('orders', id);
+
+  // Restore state nếu có
+  if (orderState) o = { ...o, ...orderState };
+
+  renderOrderForm(c, o, !!id);
 }
 
 async function renderOrderForm(container, order, isEdit) {
@@ -106,6 +108,14 @@ async function renderOrderForm(container, order, isEdit) {
       const prescriptionId = document.getElementById('prf').value;
       if (!prescriptionId) return alert("Nhập Prescription ID trước!");
 
+      // Lưu state các trường đang nhập để không bị mất
+      orderState = {
+        prescription_id: prescriptionId,
+        patient_id: document.getElementById('pf').value,
+        doctor_id: document.getElementById('df').value,
+        status: document.getElementById('st').value
+      };
+
       // Đảm bảo đúng domain/port service prescription của bạn
       const token = localStorage.getItem('accessToken');
       const res = await fetch(`http://127.0.0.1/api/v1/prescriptions/${prescriptionId}/`, {
@@ -117,15 +127,16 @@ async function renderOrderForm(container, order, isEdit) {
       }
       const presc = await res.json();
 
-      // Gợi ý số lượng mặc định = duration_days, hoặc cho user nhập lại
+      // Gợi ý số lượng mặc định = duration_days
       order.items = (presc.items || []).map(i => ({
         medication: i.medication,
         dosage: i.dosage,
-        quantity: i.duration_days // bạn có thể cho user sửa field quantity
+        quantity: i.duration_days
       }));
-      // cũng fill luôn patient_id, doctor_id nếu muốn
       order.patient_id = presc.patient_id || order.patient_id;
       order.doctor_id = presc.doctor_id || order.doctor_id;
+      orderState.items = order.items; // Lưu lại items mới
+      order.prescription_id = prescriptionId; // <<< THÊM DÒNG NÀY ĐỂ GIỮ LẠI prescription_id
       renderOrderForm(container, order, false);
     };
   }
@@ -136,7 +147,7 @@ async function renderOrderForm(container, order, isEdit) {
     // cập nhật quantity từ input (user có thể sửa lại trước khi save)
     order.items.forEach((it, idx) => {
       const el = document.querySelector(`#qty_${idx}`);
-      it.quantity = Number(el.value) || 0;
+      it.quantity = Number(el.value) || 1;
     });
 
     const payload = {
@@ -156,7 +167,6 @@ async function renderOrderForm(container, order, isEdit) {
       alert('Điền đủ Prescription, Patient, Doctor và ít nhất 1 item!');
       return;
     }
-    // quantity phải >=1
     if (payload.items.some(i => !i.medication || !i.dosage || i.quantity < 1)) {
       alert('Điền đủ thông tin các thuốc và số lượng lớn hơn 0!');
       return;
@@ -165,6 +175,7 @@ async function renderOrderForm(container, order, isEdit) {
     try {
       if (isEdit) await api.update('orders', order.id, payload);
       else await api.create('orders', payload);
+      orderState = null;
       container.innerHTML = '';
       render();
     } catch (err) {

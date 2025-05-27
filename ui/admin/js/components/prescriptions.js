@@ -1,5 +1,6 @@
-// --- File: js/components/prescriptions.js ---
 import { api } from '../api.js';
+
+let prescriptionState = null; // Biến toàn cục lưu state tạm thời
 
 export async function render() {
   const app = document.getElementById('app');
@@ -56,15 +57,20 @@ export async function render() {
 async function showForm(id) {
   const c = document.getElementById('form');
   let p = { appointment_id: '', patient_id: '', doctor_id: '', notes: '', items: [] };
+
   if (id) p = await api.get('prescriptions', id);
 
-  // tạm clone để user thao tác, không sửa thẳng vào p.items
+  // Khôi phục state nếu có
+  if (prescriptionState) p = { ...p, ...prescriptionState };
   let items = Array.isArray(p.items) ? JSON.parse(JSON.stringify(p.items)) : [];
 
-  // Hiển thị form + item list
-  renderForm();
-
   function renderForm() {
+    // Lấy lại các trường input nếu có prescriptionState (tránh mất dữ liệu)
+    let appVal = prescriptionState?.appointment_id ?? p.appointment_id;
+    let patVal = prescriptionState?.patient_id ?? p.patient_id;
+    let docVal = prescriptionState?.doctor_id ?? p.doctor_id;
+    let notesVal = prescriptionState?.notes ?? p.notes;
+
     c.innerHTML = `
       <div class="card">
         <div class="card-header">
@@ -73,19 +79,19 @@ async function showForm(id) {
         <div class="card-content">
           <div class="form-group">
             <label>Appointment ID</label>
-            <input id="af" type="number" value="${p.appointment_id}">
+            <input id="af" type="number" value="${appVal}">
           </div>
           <div class="form-group">
             <label>Patient ID</label>
-            <input id="pf" type="number" value="${p.patient_id}">
+            <input id="pf" type="number" value="${patVal}">
           </div>
           <div class="form-group">
             <label>Doctor ID</label>
-            <input id="df" type="number" value="${p.doctor_id}">
+            <input id="df" type="number" value="${docVal}">
           </div>
           <div class="form-group">
             <label>Notes</label>
-            <textarea id="nf">${p.notes || ''}</textarea>
+            <textarea id="nf">${notesVal || ''}</textarea>
           </div>
           <div class="form-group">
             <label><b>Prescription Items</b></label>
@@ -114,8 +120,14 @@ async function showForm(id) {
     // Xử lý xóa item
     document.querySelectorAll('.rm').forEach(btn => {
       btn.onclick = () => {
-        const idx = +btn.dataset.idx;
-        items.splice(idx, 1);
+        items.splice(+btn.dataset.idx, 1);
+        // Lưu lại state input trước khi render lại!
+        prescriptionState = {
+          appointment_id: document.getElementById('af').value,
+          patient_id: document.getElementById('pf').value,
+          doctor_id: document.getElementById('df').value,
+          notes: document.getElementById('nf').value
+        };
         renderForm();
       };
     });
@@ -130,6 +142,13 @@ async function showForm(id) {
         return;
       }
       items.push({ medication: med, dosage: dos, duration_days: dur });
+      // Lưu lại state input
+      prescriptionState = {
+        appointment_id: document.getElementById('af').value,
+        patient_id: document.getElementById('pf').value,
+        doctor_id: document.getElementById('df').value,
+        notes: document.getElementById('nf').value
+      };
       renderForm();
     };
 
@@ -159,10 +178,16 @@ async function showForm(id) {
         alert('Prescription must have at least 1 item!');
         return;
       }
-      if (id) await api.update('prescriptions', id, payload);
-      else    await api.create('prescriptions', payload);
-      c.innerHTML = '';
-      render();
+      try {
+        if (id) await api.update('prescriptions', id, payload);
+        else    await api.create('prescriptions', payload);
+        prescriptionState = null; // Clear
+        c.innerHTML = '';
+        render();
+      } catch (err) {
+        alert('Save failed: ' + err.message);
+      }
     };
   }
+  renderForm();
 }
