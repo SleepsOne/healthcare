@@ -38,12 +38,12 @@ export const api = {
   getCurrentUser: () => request('/users/me/', 'GET'),
   getUserById:      id => request(`/users/${id}/`, 'GET'),
   createUser:      data => request('/users/', 'POST', data, true),
-  updateCurrentUser: data => request('/users/', 'PATCH', data),
+  updateCurrentUser: data => request('/users/me/', 'PATCH', data),
 
   // ── Patients ─────────────────────────────────────────────────
   getCurrentPatient: () => request('/patients/me/', 'GET'),
   createPatient: data => request('/patients/', 'POST', data),
-  updateCurrentPatient: data => request('/patients/me', 'PATCH', data),
+  updateCurrentPatient: data => request('/patients/me/', 'PATCH', data),
 
   // ── Doctors ──────────────────────────────────────────────────
   getDoctors: () => request('/doctors/', 'GET'),

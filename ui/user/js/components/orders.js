@@ -33,8 +33,14 @@ export async function render() {
 
   const list = document.getElementById('list');
   try {
+    // Lấy thông tin patient hiện tại
+    const patient = await api.getCurrentPatient();
     const orders = await api.getOrders();
-    orders.forEach(o => {
+    // Filter theo đúng patient
+    const myOrders = orders.filter(o => o.patient_id === patient.id);
+  
+    // Hiển thị ra bảng
+    myOrders.forEach(o => {
       const tr = document.createElement('tr');
       const date = o.created_at ? new Date(o.created_at) : new Date();
       tr.innerHTML = `
@@ -50,6 +56,12 @@ export async function render() {
       `;
       list.append(tr);
     });
+  
+    // Nếu không có đơn hàng, thông báo
+    if (myOrders.length === 0) {
+      list.innerHTML = `<tr><td colspan="4">Bạn chưa có đơn hàng nào.</td></tr>`;
+    }
+  
   } catch (err) {
     app.innerHTML = `<p class="error">Không thể tải đơn hàng: ${err.message}</p>`;
   }

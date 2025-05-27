@@ -1,4 +1,3 @@
-// user-ui/js/components/profile.js
 import { api } from '../api.js';
 
 export async function render() {
@@ -28,7 +27,7 @@ export async function render() {
             <h3>Thông tin bệnh nhân</h3>
             <div class="form-group">
               <label for="medicalRecord">Mã hồ sơ bệnh án</label>
-              <input id="medicalRecord" type="text" readonly>
+              <input id="medicalRecord" type="text" placeholder="Nhập mã hồ sơ bệnh án">
             </div>
             <div class="form-group">
               <label for="phone">Số điện thoại</label>
@@ -53,22 +52,32 @@ export async function render() {
     </section>
   `;
 
+  // Lấy thông tin user
+  let userData;
+  let patientData = null;
+  let needCreatePatient = false;
 
-  // --- Fetch & Fill dữ liệu có sẵn ---
   try {
-    // Lấy thông tin user và fill vào form
-    const userData = await api.getCurrentUser();
-    console.log('fetched userData:', userData);
+    userData = await api.getCurrentUser();
     document.getElementById('username').value    = userData.username || '';
     document.getElementById('fullName').value    = userData.full_name || '';
     document.getElementById('email').value       = userData.email || '';
 
-    // Lấy thông tin patient và fill
-    const patientData = await api.getCurrentPatient();
-    document.getElementById('medicalRecord').value = patientData.medical_record || '';
-    document.getElementById('phone').value         = patientData.phone         || '';
-    document.getElementById('dob').value           = patientData.dob           || '';
-    document.getElementById('address').value       = patientData.address       || '';
+    try {
+      // Lấy thông tin patient (nếu có)
+      patientData = await api.getCurrentPatient();
+      document.getElementById('medicalRecord').value = patientData.medical_record || '';
+      document.getElementById('phone').value         = patientData.phone         || '';
+      document.getElementById('dob').value           = patientData.dob           || '';
+      document.getElementById('address').value       = patientData.address       || '';
+    } catch (e) {
+      // Nếu chưa có patient (404) → cho phép tạo mới
+      needCreatePatient = true;
+      document.getElementById('medicalRecord').value = '';
+      document.getElementById('phone').value         = '';
+      document.getElementById('dob').value           = '';
+      document.getElementById('address').value       = '';
+    }
   } catch (err) {
     console.error('Không thể load thông tin cá nhân:', err);
     app.innerHTML = `
@@ -90,12 +99,33 @@ export async function render() {
         email:     document.getElementById('email').value.trim()
       });
 
-      // Cập nhật patient
-      await api.updateCurrentPatient({
-        phone:   document.getElementById('phone').value.trim(),
-        dob:     document.getElementById('dob').value,
-        address: document.getElementById('address').value.trim()
-      });
+      // Tạo hoặc update patient:
+      const medicalRecord = document.getElementById('medicalRecord').value.trim();
+      if (!medicalRecord) {
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'alert alert-error';
+        errorMsg.textContent = 'Vui lòng nhập mã hồ sơ bệnh án!';
+        document.querySelector('.form-actions').prepend(errorMsg);
+        setTimeout(() => errorMsg.remove(), 3000);
+        return; // Ngừng submit nếu chưa nhập
+      }
+
+      const patientPayload = {
+        user_id: userData.id, 
+        full_name: document.getElementById('fullName').value.trim(),
+        phone:     document.getElementById('phone').value.trim(),
+        dob:       document.getElementById('dob').value,
+        address:   document.getElementById('address').value.trim(),
+        medical_record: medicalRecord
+      };
+
+      if (needCreatePatient) {
+        // Tạo mới patient (sau đăng ký lần đầu)
+        await api.createPatient(patientPayload);
+      } else {
+        // Cập nhật patient nếu đã có
+        await api.updateCurrentPatient(patientPayload);
+      }
 
       // Thông báo thành công
       const successMsg = document.createElement('div');
@@ -112,4 +142,3 @@ export async function render() {
     }
   };
 }
-

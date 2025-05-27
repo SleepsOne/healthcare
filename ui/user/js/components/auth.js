@@ -1,5 +1,4 @@
-// user-ui/js/components/auth.js
-import { api } from '../api.js';
+import { api } from '../api.js'
 
 /**
  * Hiển thị form đăng nhập
@@ -72,7 +71,7 @@ export function renderRegister() {
   `;
 
   document.getElementById('btnRegister').onclick = async () => {
-    // … collect username, password, email, fullName …
+    // Lấy dữ liệu form
     const username        = document.getElementById('username').value.trim();
     const password        = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
@@ -86,36 +85,16 @@ export function renderRegister() {
       return showError('Mật khẩu và xác nhận không khớp');
     }
 
-
-    console.log(
-      JSON.stringify({
-        username,
-        password,
-        email,
-        full_name: fullName
-      }, null, 2)
-    );
-
     try {
-      // 3️⃣ Gọi API với payload hợp lệ
-      const newUser = await api.createUser({
+      // 1. Đăng ký user (KHÔNG tạo patient ở đây)
+      await api.createUser({
         username,
         password,
         email,
         full_name: fullName
       });
 
-      // 4️⃣ Tạo luôn record Patient (nếu cần)
-      await api.createPatient({
-        user_id:       newUser.id,
-        full_name:     fullName,
-        medical_record:'',
-        dob:           null,
-        address:       '',
-        phone:         ''
-      });
-
-      // Chuyển về login
+      // 2. Chuyển về trang đăng nhập
       window.location.hash = '/login';
     } catch (err) {
       showError('Lỗi đăng ký: ' + err.message);
@@ -134,4 +113,3 @@ function handleLogout() {
   localStorage.removeItem('refreshToken');
   window.location.hash = '/login';
 }
-
