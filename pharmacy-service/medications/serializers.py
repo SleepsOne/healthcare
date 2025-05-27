@@ -12,7 +12,7 @@ class MedicationSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ['medication','dosage','quantity']
+        fields = ['order','medication','dosage','quantity']
         extra_kwargs = {'quantity': {'required': True}}
 
 class OrderSerializer(serializers.ModelSerializer):
