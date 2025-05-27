@@ -8,6 +8,7 @@ import { render as rOI }       from './components/order-items.js';
 import { render as rO }        from './components/orders.js';
 import { render as rPR }       from './components/prescriptions.js';
 import { render as rU }        from './components/users.js';
+import { render as rLogout }   from './components/logout.js';
 
 const routes = {
   '/login':       rLogin,
@@ -20,6 +21,7 @@ const routes = {
   '/orders':       rO,
   '/prescriptions':rPR,
   '/users':        rU,
+  '/logout':       rLogout,
 };
 
 function router() {
