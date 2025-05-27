@@ -1,69 +1,191 @@
 :root {
-    --primary: #2c3e50;
-    --accent: #3498db;
-    --bg: #ecf0f1;
-    --text: #333;
-    --gap: 1rem;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: sans-serif;
-    background: var(--bg);
-    color: var(--text);
-  }
-  nav {
-    display: flex;
-    background: var(--primary);
-    padding: var(--gap);
-  }
-  nav a {
-    color: white;
-    margin-right: var(--gap);
-    text-decoration: none;
-  }
-  nav a:hover {
-    text-decoration: underline;
-  }
-  main {
-    padding: var(--gap);
-  }
-  /* Table */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: var(--gap);
-  }
-  th, td {
-    border: 1px solid #ccc;
-    padding: 0.5rem;
-  }
-  th {
-    background: var(--accent);
-    color: white;
-  }
-  /* Form */
-  .form-group {
-    margin-bottom: var(--gap);
-  }
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-  input, select, textarea {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-  }
-  button {
-    padding: 0.6rem 1.2rem;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  button:hover {
-    opacity: 0.9;
-  }
-  
+  --primary: #2c3e50;
+  --accent: #3498db;
+  --success: #2ecc71;
+  --warning: #f1c40f;
+  --error: #e74c3c;
+  --bg: #ecf0f1;
+  --bg-alt: #ffffff;
+  --text: #333333;
+  --text-light: #777777;
+  --border: #d0d0d0;
+  --radius: 6px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.1);
+  --transition: all 0.2s ease;
+  --gap: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  background: var(--primary);
+  padding: var(--gap);
+}
+
+nav a {
+  color: white;
+  margin-right: var(--gap);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+nav a:hover,
+nav a.active {
+  background: var(--accent);
+}
+
+main {
+  padding: var(--gap);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1, h2 {
+  margin-bottom: var(--gap);
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+button:hover {
+  background: var(--primary);
+}
+
+/* Card container for tables and forms */
+.card {
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--gap);
+  margin-bottom: var(--gap);
+}
+
+/* Table styles */
+.table-responsive {
+  overflow-x: auto;
+  margin-top: var(--gap);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-alt);
+}
+
+th, td {
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+th {
+  background: var(--primary);
+  color: white;
+  font-weight: normal;
+}
+
+tbody tr:hover {
+  background: rgba(52,152,219,0.1);
+}
+
+/* Status badges */
+.status {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status.pending { background: var(--warning); color: #222; }
+.status.confirmed { background: var(--success); color: white; }
+.status.cancelled { background: var(--error); color: white; }
+
+/* Form groups */
+.form-group {
+  margin-bottom: var(--gap);
+}
+
+label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(52,152,219,0.2);
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Modal styling */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+  padding: var(--gap);
+}
+
+.modal-content {
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  padding: var(--gap);
+  max-width: 500px;
+  width: 100%;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  nav { justify-content: center; }
+  table, input, select, textarea, button { font-size: 0.9rem; }
+  .modal-content { padding: 0.75rem; }
+}
