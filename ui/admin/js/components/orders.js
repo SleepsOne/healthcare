@@ -32,7 +32,11 @@ export async function render() {
       <td>${o.id}</td>
       <td>${o.patient_id}</td>
       <td>${o.doctor_id}</td>
-      <td>${o.items.map(i => `${i.medication} x${i.quantity}`).join(', ')}</td>
+      <td>
+        ${o.items && o.items.length > 0
+          ? o.items.map(i => `${i.medication} (${i.dosage}) x${i.quantity}`).join('<br>')
+          : ''}
+      </td>
       <td><span class="status ${o.status}">${o.status}</span></td>
       <td>
         <button class="btn btn-secondary e" data-id="${o.id}">Edit</button>
@@ -96,55 +100,85 @@ async function renderOrderForm(container, order, isEdit) {
 
   document.getElementById('st').value = order.status;
 
+  // Khi tạo mới, phải fetch prescription để hiển thị items
   if (!isEdit) {
-    document.getElementById('fetchPrescription').onclick = fetchPrescriptionItems;
-  } else {
-    renderOrderItems(order.items, true);
+    document.getElementById('fetchPrescription').onclick = async () => {
+      const prescriptionId = document.getElementById('prf').value;
+      if (!prescriptionId) return alert("Nhập Prescription ID trước!");
+
+      // Đảm bảo đúng domain/port service prescription của bạn
+      const token = localStorage.getItem('accessToken');
+      const res = await fetch(`http://127.0.0.1/api/v1/prescriptions/${prescriptionId}/`, {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (!res.ok) {
+        alert("Prescription ID không tồn tại hoặc không truy cập được.");
+        return;
+      }
+      const presc = await res.json();
+
+      // Gợi ý số lượng mặc định = duration_days, hoặc cho user nhập lại
+      order.items = (presc.items || []).map(i => ({
+        medication: i.medication,
+        dosage: i.dosage,
+        quantity: i.duration_days // bạn có thể cho user sửa field quantity
+      }));
+      // cũng fill luôn patient_id, doctor_id nếu muốn
+      order.patient_id = presc.patient_id || order.patient_id;
+      order.doctor_id = presc.doctor_id || order.doctor_id;
+      renderOrderForm(container, order, false);
+    };
   }
 
+  renderOrderItems(order.items);
+
   document.getElementById('sv').onclick = async () => {
+    // cập nhật quantity từ input (user có thể sửa lại trước khi save)
+    order.items.forEach((it, idx) => {
+      const el = document.querySelector(`#qty_${idx}`);
+      it.quantity = Number(el.value) || 0;
+    });
+
     const payload = {
       patient_id: +document.getElementById('pf').value,
       doctor_id: +document.getElementById('df').value,
       prescription_id: +document.getElementById('prf').value,
       status: document.getElementById('st').value,
-      items: Array.from(document.querySelectorAll('.item')).map(el => ({
-        medication: el.dataset.medication,
-        dosage: el.dataset.dosage,
-        quantity: +el.querySelector('.quantity').value
+      items: order.items.map(it => ({
+        medication: it.medication,
+        dosage: it.dosage,
+        quantity: Number(it.quantity) || 1
       }))
     };
-    if (isEdit) await api.update('orders', order.id, payload);
-    else await api.create('orders', payload);
 
-    container.innerHTML = '';
-    render();
+    // validate
+    if (!payload.prescription_id || !payload.patient_id || !payload.doctor_id || !payload.items.length) {
+      alert('Điền đủ Prescription, Patient, Doctor và ít nhất 1 item!');
+      return;
+    }
+    // quantity phải >=1
+    if (payload.items.some(i => !i.medication || !i.dosage || i.quantity < 1)) {
+      alert('Điền đủ thông tin các thuốc và số lượng lớn hơn 0!');
+      return;
+    }
+
+    try {
+      if (isEdit) await api.update('orders', order.id, payload);
+      else await api.create('orders', payload);
+      container.innerHTML = '';
+      render();
+    } catch (err) {
+      alert(err.message);
+    }
   };
 }
 
-async function fetchPrescriptionItems() {
-  const prescriptionId = document.getElementById('prf').value;
-  const token = localStorage.getItem('accessToken');
-
-  const res = await fetch(`http://localhost/api/v1/prescriptions/${prescriptionId}/`, {
-    headers: { 'Authorization': 'Bearer ' + token }
-  });
-
-  if (!res.ok) {
-    alert("Invalid prescription ID");
-    return;
-  }
-
-  const presc = await res.json();
-  renderOrderItems(presc.items, false);
-}
-
-function renderOrderItems(items, isEdit) {
+function renderOrderItems(items) {
   const itemsContainer = document.getElementById('order-items');
-  itemsContainer.innerHTML = items.map(i => `
-    <div class="form-group item" data-medication="${i.medication}" data-dosage="${i.dosage}">
+  itemsContainer.innerHTML = (items || []).map((i, idx) => `
+    <div class="form-group">
       <label>${i.medication} (${i.dosage})</label>
-      <input type="number" class="quantity" placeholder="Quantity" value="${isEdit ? i.quantity : ''}">
+      <input id="qty_${idx}" type="number" min="1" class="quantity" placeholder="Quantity" value="${i.quantity || 1}">
     </div>
   `).join('');
 }

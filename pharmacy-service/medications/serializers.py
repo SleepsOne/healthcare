@@ -9,14 +9,19 @@ class MedicationSerializer(serializers.ModelSerializer):
         model = Medication
         fields = '__all__'
 
+class OrderItemNestedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = ['medication','dosage','quantity']
+
 class OrderItemSerializer(serializers.ModelSerializer):
+    order = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = OrderItem
         fields = ['order','medication','dosage','quantity']
-        extra_kwargs = {'quantity': {'required': True}}
 
 class OrderSerializer(serializers.ModelSerializer):
-    items = OrderItemSerializer(many=True)
+    items = OrderItemNestedSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
@@ -27,7 +32,7 @@ class OrderSerializer(serializers.ModelSerializer):
         from django.db import transaction
         # Lấy created_by được merge vào validated_data từ serializer.save()
         created_by = validated_data.pop('created_by', None)
-        items_data = validated_data.pop('items')
+        # items_data = validated_data.pop('items', None)
         pid = validated_data['prescription_id']
 
         # 1) fetch prescription
@@ -43,7 +48,7 @@ class OrderSerializer(serializers.ModelSerializer):
         # 2) kiểm tra stock
         for it in presc_items:
             med_name = it['medication']
-            qty = it.get('quantity', 1)
+            qty = it.get('quantity', it.get('duration_days', 1))
             try:
                 med = Medication.objects.get(name=med_name)
             except Medication.DoesNotExist:
@@ -59,7 +64,7 @@ class OrderSerializer(serializers.ModelSerializer):
             )
             for it in presc_items:
                 med = Medication.objects.get(name=it['medication'])
-                qty = it.get('quantity', 1)
+                qty = it.get('quantity', it.get('duration_days', 1))  # đồng bộ với kiểm tra stock
                 med.stock -= qty
                 med.save()
                 OrderItem.objects.create(
@@ -92,7 +97,7 @@ class OrderSerializer(serializers.ModelSerializer):
             with transaction.atomic():
                 for it in items_data:
                     med = Medication.objects.get(name=it['medication'])
-                    qty = it.get('quantity', 1)
+                    qty = it.get('quantity', it.get('duration_days', 1))
                     if med.stock < qty:
                         raise serializers.ValidationError(f"Không đủ stock cho {it['medication']}")
                     med.stock -= qty

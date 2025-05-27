@@ -25,3 +25,15 @@ class PrescriptionSerializer(serializers.ModelSerializer):
             PrescriptionItem.objects.create(prescription=pres, **item)
         print(f"[Serializer] all items created for Prescription#{pres.id}")
         return pres
+    
+    def update(self, instance, validated_data):
+        items_data = validated_data.pop('items', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        if items_data is not None:
+            # Xóa cũ, tạo mới
+            instance.items.all().delete()
+            for item in items_data:
+                PrescriptionItem.objects.create(prescription=instance, **item)
+        return instance
