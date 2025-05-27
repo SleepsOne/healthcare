@@ -30,9 +30,7 @@ body {
   min-height: 100vh;
 }
 
-header, footer { display: none; }
-body.logged-in header,
-body.logged-in footer { display: block; }
+header, footer { display: block; }
 
 .container {
 max-width: 800px;

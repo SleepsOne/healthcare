@@ -4,12 +4,12 @@ import { render as rAppointments } from './components/appointments.js';
 import { render as rOrders }       from './components/orders.js';
 
 const routes = {
-'/login':        { fn: renderLogin,    title: 'Đăng nhập'    },
-'/register':     { fn: renderRegister, title: 'Đăng ký'      },
-'/profile':      { fn: rProfile,       title: 'Trang cá nhân' },
-'/appointments': { fn: rAppointments,  title: 'Lịch hẹn'      },
-'/orders':       { fn: rOrders,        title: 'Đơn hàng'      },
-'/logout':       { fn: handleLogout,   title: 'Đăng xuất'    }
+'/login':        { fn: renderLogin,    title: 'Đăng nhập',    guestOnly: true },
+'/register':     { fn: renderRegister, title: 'Đăng ký',      guestOnly: true },
+'/profile':      { fn: rProfile,       title: 'Trang cá nhân', authOnly: true },
+'/appointments': { fn: rAppointments,  title: 'Lịch hẹn',      authOnly: true },
+'/orders':       { fn: rOrders,        title: 'Đơn hàng',      authOnly: true },
+'/logout':       { fn: handleLogout,   title: 'Đăng xuất',    authOnly: true }
 };
 
 function handleLogout() {
@@ -24,11 +24,31 @@ a.classList.toggle('active', linkPath === path);
 });
 }
 
+function updateNavigation(loggedIn) {
+document.querySelectorAll('.auth-only').forEach(el => {
+el.style.display = loggedIn ? 'inline-block' : 'none';
+});
+document.querySelectorAll('.guest-only').forEach(el => {
+el.style.display = loggedIn ? 'none' : 'inline-block';
+});
+}
+
 function router() {
 const path = location.hash.slice(1) || '/login';
 const route = routes[path];
 const loggedIn = !!localStorage.getItem('accessToken');
-document.body.classList.toggle('logged-in', loggedIn);
+
+// Cập nhật hiển thị menu
+updateNavigation(loggedIn);
+
+// Kiểm tra quyền truy cập route
+if (route) {
+if ((route.authOnly && !loggedIn) || (route.guestOnly && loggedIn)) {
+window.location.hash = loggedIn ? '/profile' : '/login';
+return;
+}
+}
+
 setActiveLink(path);
 document.title = route ? `Người dùng – ${route.title}` : 'Người dùng';
 const app = document.getElementById('app'); app.innerHTML = '';
