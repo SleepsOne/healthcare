@@ -1,0 +1,1064 @@
+[
+  {
+    "intent": "greeting",
+    "patterns": [
+      "Xin chào",
+      "Chào bạn",
+      "Chào cậu",
+      "Hello",
+      "Hi",
+      "Chào",
+      "Chào bác sĩ",
+      "Hi chatbot",
+      "oke",
+      "ok",
+      "hello",
+      "hi"
+    ],
+    "response": "Xin chào! Tôi là trợ lý chăm sóc sức khỏe. Tôi có thể giúp gì cho bạn hôm nay?"
+  },
+
+  {
+    "intent": "symptom_fever",
+    "patterns": [
+      "Tôi bị sốt",
+      "Em đang sốt cao",
+      "Cơ thể tôi nóng ran",
+      "Sốt 38 độ phải làm sao",
+      "Tôi cảm thấy nóng và rét",
+      "Bị sốt liên tục 2 ngày rồi",
+      "Đo nhiệt kế lên 39 độ",
+      "Sốt kèm đau đầu",
+      "Người tôi bị nóng và mệt"
+    ],
+    "response": "Bạn đang có triệu chứng sốt. Bạn nên đo nhiệt độ thường xuyên, uống nhiều nước và nghỉ ngơi. Nếu sốt kéo dài trên 3 ngày hoặc kèm triệu chứng bất thường (khó thở, phát ban, co giật...), hãy đến cơ sở y tế kiểm tra."
+  },
+  {
+    "intent": "symptom_cough",
+    "patterns": [
+      "Tôi bị ho",
+      "Ho liên tục về đêm",
+      "Ho khan không dứt",
+      "Ho có đờm",
+      "Em bé ho và sốt nhẹ",
+      "Tôi ho nhiều ngày",
+      "Ho và đau họng",
+      "Ho lâu ngày không khỏi"
+    ],
+    "response": "Bạn bị ho, có thể do cảm lạnh hoặc nhiễm khuẩn đường hô hấp. Hãy uống nhiều nước ấm, giữ ấm cổ, hạn chế ra ngoài gió. Nếu ho kéo dài trên 2 tuần hoặc kèm khó thở, ra máu, nên đi khám bác sĩ."
+  },
+  {
+    "intent": "symptom_runny_nose",
+    "patterns": [
+      "Tôi bị sổ mũi",
+      "Chảy nước mũi liên tục",
+      "Mũi bị nghẹt, không thở được",
+      "Nước mũi trong",
+      "Mũi tôi chảy nước xanh",
+      "Bị cảm và sổ mũi",
+      "Em bé bị sổ mũi"
+    ],
+    "response": "Bạn bị sổ mũi, đây là triệu chứng phổ biến của cảm lạnh hoặc viêm mũi dị ứng. Nên xì mũi nhẹ nhàng, rửa mũi bằng nước muối sinh lý. Nếu nước mũi có màu vàng/xanh kéo dài hoặc kèm sốt cao, cần đến khám bác sĩ."
+  },
+  {
+    "intent": "symptom_sore_throat",
+    "patterns": [
+      "Tôi bị đau họng",
+      "Họng rát khi nuốt",
+      "Khàn tiếng và đau họng",
+      "Nuốt nước bọt bị đau",
+      "Đau họng kèm sốt nhẹ",
+      "Viêm họng",
+      "Sáng dậy bị đau họng"
+    ],
+    "response": "Đau họng có thể do nhiễm lạnh, viêm họng hoặc do dị ứng. Hãy uống nước ấm, tránh ăn cay nóng, súc miệng nước muối loãng. Nếu đau họng kéo dài hoặc kèm sốt cao, nên đi khám bác sĩ."
+  },
+  {
+    "intent": "symptom_headache",
+    "patterns": [
+      "Tôi bị đau đầu",
+      "Nhức đầu liên tục",
+      "Đau đầu kèm chóng mặt",
+      "Đau đầu mỗi khi làm việc căng thẳng",
+      "Đau nửa đầu",
+      "Nhức đầu khi thay đổi thời tiết",
+      "Đau đầu và buồn nôn"
+    ],
+    "response": "Đau đầu có thể do nhiều nguyên nhân như căng thẳng, thiếu ngủ, cảm cúm. Bạn nên nghỉ ngơi, uống nước và tránh làm việc quá sức. Nếu đau đầu dữ dội, kéo dài, kèm nôn hoặc nhìn mờ, hãy đi khám để loại trừ các nguyên nhân nguy hiểm."
+  },
+  {
+    "intent": "symptom_diarrhea",
+    "patterns": [
+      "Tôi bị tiêu chảy",
+      "Đi ngoài lỏng nhiều lần",
+      "Phân toàn nước",
+      "Đau bụng và tiêu chảy",
+      "Tiêu chảy kéo dài",
+      "Em bé đi ngoài phân lỏng",
+      "Bị tiêu chảy sau khi ăn hải sản"
+    ],
+    "response": "Bạn bị tiêu chảy, hãy uống nhiều nước, có thể dùng dung dịch bù nước oresol. Tránh ăn đồ sống, nhiều dầu mỡ. Nếu tiêu chảy kéo dài trên 3 ngày, có máu trong phân hoặc sốt cao, nên đi khám bác sĩ."
+  },
+  {
+    "intent": "symptom_allergy",
+    "patterns": [
+      "Tôi bị dị ứng",
+      "Phát ban trên da",
+      "Ngứa khắp người",
+      "Bị nổi mẩn đỏ",
+      "Dị ứng thời tiết",
+      "Da nổi mề đay",
+      "Ngứa sau khi ăn hải sản"
+    ],
+    "response": "Triệu chứng của bạn có thể là dị ứng. Hãy tránh tiếp xúc với tác nhân gây dị ứng, giữ vệ sinh sạch sẽ. Nếu nổi mẩn lan rộng, khó thở hoặc sưng mặt môi lưỡi, cần đến bệnh viện ngay."
+  },
+  {
+    "intent": "symptom_shortness_of_breath",
+    "patterns": [
+      "Tôi bị khó thở",
+      "Thở hụt hơi",
+      "Khó thở khi nằm",
+      "Khó thở kèm đau ngực",
+      "Tôi thấy nặng ngực",
+      "Khó thở khi vận động nhẹ"
+    ],
+    "response": "Khó thở là triệu chứng nghiêm trọng, có thể liên quan đến bệnh hô hấp, tim mạch. Nếu bạn bị khó thở đột ngột, kèm đau ngực, tím môi, cần gọi cấp cứu hoặc đến bệnh viện ngay."
+  },
+  {
+    "intent": "symptom_insomnia",
+    "patterns": [
+      "Tôi bị mất ngủ",
+      "Khó ngủ suốt đêm",
+      "Ngủ không sâu giấc",
+      "Tôi thường thức dậy giữa đêm",
+      "Ngủ chập chờn",
+      "Bị căng thẳng nên mất ngủ"
+    ],
+    "response": "Mất ngủ có thể do căng thẳng, dùng chất kích thích, hoặc rối loạn giấc ngủ. Bạn nên thư giãn, hạn chế dùng điện thoại trước khi ngủ, duy trì giờ ngủ đều đặn. Nếu tình trạng kéo dài, nên tham khảo ý kiến bác sĩ."
+  },
+  {
+    "intent": "symptom_stomach_pain",
+    "patterns": [
+      "Tôi bị đau bụng",
+      "Đau bụng dưới",
+      "Đau bụng từng cơn",
+      "Bụng quặn đau sau khi ăn",
+      "Đau dạ dày",
+      "Đau bụng và buồn nôn",
+      "Đau bụng kèm tiêu chảy"
+    ],
+    "response": "Đau bụng có thể do rối loạn tiêu hóa, ngộ độc thực phẩm hoặc các bệnh lý khác. Bạn nên nghỉ ngơi, ăn nhẹ, tránh ăn thực phẩm lạ. Nếu đau bụng dữ dội, kèm nôn nhiều, sốt cao, hãy đi khám ngay."
+  },
+  {
+    "intent": "symptom_fatigue",
+    "patterns": [
+      "Tôi bị mệt mỏi",
+      "Cảm thấy kiệt sức",
+      "Không có sức lực",
+      "Mệt không rõ lý do",
+      "Thường xuyên buồn ngủ",
+      "Làm việc một chút là mệt"
+    ],
+    "response": "Mệt mỏi có thể do thiếu ngủ, thiếu dinh dưỡng, hoặc bệnh lý tiềm ẩn. Bạn nên nghỉ ngơi, ăn uống đủ chất. Nếu tình trạng kéo dài, hãy đi kiểm tra sức khỏe tổng quát."
+  },
+  {
+    "intent": "general_health_check",
+    "patterns": [
+      "Tôi muốn kiểm tra sức khỏe tổng quát",
+      "Làm sao để khám sức khỏe định kỳ",
+      "Nên kiểm tra những gì khi đi khám sức khỏe",
+      "Khám tổng quát bao gồm gì",
+      "Bao lâu nên khám tổng quát một lần"
+    ],
+    "response": "Khám sức khỏe tổng quát nên thực hiện 1 năm/lần để phát hiện sớm các vấn đề. Bạn nên kiểm tra huyết áp, tim mạch, đường huyết, mỡ máu, chức năng gan thận, siêu âm ổ bụng, X-quang phổi. Liên hệ bệnh viện để được tư vấn lịch khám phù hợp."
+  },
+  {
+    "intent": "thank_you",
+    "patterns": [
+      "Cảm ơn bạn",
+      "Cảm ơn bác sĩ",
+      "Rất cảm ơn",
+      "Thanks",
+      "Thank you",
+      "Cảm ơn nhiều nhé",
+      "thank kiu"
+    ],
+    "response": "Bạn không có gì, nếu còn thắc mắc hãy tiếp tục hỏi tôi nhé!"
+  },
+  {
+    "intent": "goodbye",
+    "patterns": [
+      "Tạm biệt",
+      "Chào nhé",
+      "Xin chào tạm biệt",
+      "Bye bye",
+      "bai",
+      "good bye",
+      "Goodbye"
+    ],
+    "response": "Chúc bạn nhiều sức khỏe! Khi cần hỗ trợ hãy quay lại với tôi nhé."
+  },
+  {
+    "intent": "fallback",
+    "patterns": [
+      "abcxyz",
+      "nội dung không hiểu",
+      "gửi dấu hỏi"
+    ],
+    "response": "Xin lỗi, tôi chưa hiểu rõ câu hỏi của bạn. Bạn có thể diễn đạt lại hoặc hỏi về triệu chứng sức khỏe nhé!"
+  },
+  {
+    "intent": "symptom_chest_pain",
+    "patterns": [
+      "Tôi bị đau ngực",
+      "Ngực đau tức",
+      "Cảm giác bị bóp nghẹt ở ngực",
+      "Đau ngực khi thở sâu",
+      "Đau lan ra vai trái",
+      "Ngực đau kèm khó thở"
+    ],
+    "response": "Đau ngực có thể do nhiều nguyên nhân như căng cơ, viêm phổi, hoặc nguy hiểm như nhồi máu cơ tim. Nếu bạn đau ngực dữ dội, đau lan lên vai hoặc xuống cánh tay, toát mồ hôi lạnh, khó thở, hãy gọi cấp cứu ngay."
+  },
+  {
+    "intent": "symptom_joint_pain",
+    "patterns": [
+      "Tôi bị đau khớp",
+      "Đau các khớp xương",
+      "Khớp sưng đỏ",
+      "Sáng dậy cứng khớp",
+      "Đau nhức đầu gối",
+      "Đau khớp cổ tay"
+    ],
+    "response": "Đau khớp có thể do vận động quá sức, chấn thương, viêm khớp, hoặc các bệnh lý khác. Hãy nghỉ ngơi, có thể chườm lạnh. Nếu khớp sưng, nóng đỏ, đau kéo dài, hoặc khó vận động, nên đi khám để được kiểm tra."
+  },
+  {
+    "intent": "symptom_nausea",
+    "patterns": [
+      "Tôi bị buồn nôn",
+      "Cảm giác muốn nôn",
+      "Nôn nhiều lần trong ngày",
+      "Buồn nôn sau khi ăn",
+      "Nôn ra nước vàng",
+      "Buồn nôn kèm đau bụng"
+    ],
+    "response": "Buồn nôn có thể do rối loạn tiêu hóa, ăn không hợp vệ sinh, hoặc dấu hiệu của bệnh lý khác. Nên uống nước ấm, tránh ăn thực phẩm khó tiêu. Nếu nôn kéo dài, kèm sốt, tiêu chảy, hoặc mất nước, hãy đi khám."
+  },
+  {
+    "intent": "symptom_rash",
+    "patterns": [
+      "Tôi bị phát ban",
+      "Nổi mẩn đỏ khắp người",
+      "Da xuất hiện nốt đỏ nhỏ",
+      "Nổi ban kèm sốt",
+      "Da ngứa và nổi hạt"
+    ],
+    "response": "Phát ban có thể do dị ứng, nhiễm virus, hoặc các nguyên nhân khác. Nếu ban lan nhanh, kèm khó thở, sốt cao hoặc sưng phù, hãy đến cơ sở y tế ngay."
+  },
+  {
+    "intent": "symptom_loss_of_taste_smell",
+    "patterns": [
+      "Tôi mất vị giác",
+      "Không ngửi được mùi",
+      "Ăn không thấy ngon",
+      "Đột nhiên không ngửi được gì",
+      "Mất mùi sau cảm cúm"
+    ],
+    "response": "Mất vị giác hoặc khứu giác thường gặp sau cảm cúm, Covid-19 hoặc một số bệnh khác. Tình trạng này đa phần sẽ cải thiện dần. Nếu kéo dài hoặc kèm triệu chứng nặng, nên đi khám."
+  },
+  {
+    "intent": "symptom_high_blood_pressure",
+    "patterns": [
+      "Tôi bị huyết áp cao",
+      "Đo huyết áp thấy tăng",
+      "Hoa mắt, chóng mặt",
+      "Huyết áp 150 trên 90 có nguy hiểm không",
+      "Mệt khi đo huyết áp cao"
+    ],
+    "response": "Huyết áp cao là nguy cơ gây biến chứng tim mạch, đột quỵ. Bạn nên tuân thủ hướng dẫn của bác sĩ, kiểm tra huyết áp thường xuyên, ăn nhạt, tập thể dục đều đặn và uống thuốc đều nếu có chỉ định."
+  },
+  {
+    "intent": "covid_questions",
+    "patterns": [
+      "Tôi nghi bị covid",
+      "Sốt, mất mùi có phải covid",
+      "F0 nên làm gì",
+      "Tôi vừa tiếp xúc F0",
+      "Cách ly tại nhà covid"
+    ],
+    "response": "Nếu bạn có triệu chứng nghi ngờ Covid-19 (sốt, mất mùi, ho, đau họng...), hãy tự cách ly, đeo khẩu trang, hạn chế tiếp xúc và báo cho cơ sở y tế gần nhất để được hướng dẫn xét nghiệm và điều trị."
+  },
+  {
+    "intent": "vaccine_info",
+    "patterns": [
+      "Vaccine phòng bệnh gì",
+      "Tôi nên tiêm vaccine gì",
+      "Vaccine covid có tác dụng gì",
+      "Tiêm vaccine ở đâu",
+      "Lịch tiêm chủng cho trẻ"
+    ],
+    "response": "Vaccine giúp phòng ngừa các bệnh truyền nhiễm nguy hiểm như Covid-19, cúm, sởi, viêm gan B, v.v. Bạn nên tiêm đủ các mũi theo khuyến cáo của Bộ Y tế. Liên hệ trạm y tế hoặc bệnh viện để biết thêm lịch tiêm chủng."
+  },
+  {
+    "intent": "contact_hospital",
+    "patterns": [
+      "Số điện thoại bệnh viện",
+      "Cấp cứu gọi số nào",
+      "Gần đây có phòng khám nào",
+      "Tôi cần địa chỉ bệnh viện",
+      "Liên hệ bác sĩ như thế nào"
+    ],
+    "response": "Để cấp cứu, hãy gọi 115. Bạn có thể tìm địa chỉ bệnh viện gần nhất trên Google Maps hoặc liên hệ tổng đài 1900 xxx xxx để được tư vấn, hỗ trợ y tế kịp thời."
+  },
+  {
+    "intent": "mental_health",
+    "patterns": [
+      "Tôi bị stress",
+      "Cảm thấy lo âu",
+      "Trầm cảm nên làm gì",
+      "Tôi hay buồn vô cớ",
+      "Không muốn ăn, không muốn làm gì"
+    ],
+    "response": "Sức khỏe tâm thần rất quan trọng. Bạn nên chia sẻ với người thân, thư giãn, luyện tập thể thao, nghe nhạc, hoặc tìm đến chuyên gia tâm lý nếu cảm giác tiêu cực kéo dài, ảnh hưởng cuộc sống."
+  },
+  {
+    "intent": "symptom_dizziness",
+    "patterns": [
+      "Tôi bị chóng mặt",
+      "Đầu óc quay cuồng",
+      "Cảm giác mất thăng bằng",
+      "Chóng mặt khi đứng dậy",
+      "Hoa mắt chóng mặt",
+      "Đứng lên bị choáng"
+    ],
+    "response": "Chóng mặt có thể do thiếu máu, huyết áp thấp, rối loạn tiền đình. Bạn nên nghỉ ngơi, tránh thay đổi tư thế đột ngột. Nếu chóng mặt kèm nôn, đau đầu dữ dội, hoặc ngất xỉu, hãy đi khám ngay."
+  },
+  {
+    "intent": "symptom_back_pain",
+    "patterns": [
+      "Tôi bị đau lưng",
+      "Đau thắt lưng",
+      "Đau lưng dưới",
+      "Đau lưng khi ngồi lâu",
+      "Đau lưng lan xuống chân",
+      "Đau lưng sau khi mang vác nặng"
+    ],
+    "response": "Đau lưng có thể do sai tư thế, thoát vị đĩa đệm, hoặc các bệnh lý cột sống. Bạn nên nghỉ ngơi, tránh mang vác nặng, tập các bài tập kéo giãn cột sống. Nếu đau dữ dội, lan xuống chân, hoặc kèm tê bì, hãy đi khám."
+  },
+  {
+    "intent": "symptom_eye_problems",
+    "patterns": [
+      "Tôi bị mờ mắt",
+      "Nhìn không rõ",
+      "Mắt bị đỏ",
+      "Mắt bị ngứa",
+      "Chảy nước mắt nhiều",
+      "Mắt bị sưng"
+    ],
+    "response": "Các vấn đề về mắt cần được thăm khám kỹ lưỡng. Nếu bạn bị mờ mắt đột ngột, đau mắt dữ dội, nhìn thấy đốm đen, hoặc mất thị lực, hãy đến bệnh viện ngay. Với các triệu chứng nhẹ, có thể dùng nước muối sinh lý rửa mắt."
+  },
+  {
+    "intent": "symptom_ear_pain",
+    "patterns": [
+      "Tôi bị đau tai",
+      "Tai bị ù",
+      "Tai chảy mủ",
+      "Nghe không rõ",
+      "Tai bị ngứa",
+      "Đau tai khi nuốt"
+    ],
+    "response": "Đau tai có thể do viêm tai, nhiễm trùng, hoặc các vấn đề khác. Không nên tự ý ngoáy tai. Nếu đau dữ dội, chảy mủ, sốt, hoặc giảm thính lực, hãy đi khám bác sĩ chuyên khoa tai mũi họng."
+  },
+  {
+    "intent": "symptom_urinary_problems",
+    "patterns": [
+      "Tôi bị tiểu buốt",
+      "Tiểu nhiều lần",
+      "Tiểu ra máu",
+      "Khó tiểu",
+      "Tiểu không tự chủ",
+      "Tiểu đêm nhiều lần"
+    ],
+    "response": "Các vấn đề về tiểu tiện có thể do nhiễm trùng đường tiết niệu, sỏi thận, hoặc các bệnh lý khác. Bạn nên uống nhiều nước, giữ vệ sinh sạch sẽ. Nếu tiểu ra máu, đau dữ dội, hoặc sốt, hãy đi khám ngay."
+  },
+  {
+    "intent": "symptom_skin_problems",
+    "patterns": [
+      "Tôi bị mụn",
+      "Da bị khô",
+      "Nổi mụn nước",
+      "Da bị bong tróc",
+      "Nốt ruồi thay đổi",
+      "Da bị sạm"
+    ],
+    "response": "Các vấn đề về da cần được chăm sóc đúng cách. Giữ da sạch sẽ, tránh nặn mụn, bảo vệ da khỏi ánh nắng. Nếu có nốt ruồi thay đổi hình dạng, màu sắc, hoặc mụn viêm nhiều, nên đi khám da liễu."
+  },
+  {
+    "intent": "symptom_memory_problems",
+    "patterns": [
+      "Tôi hay quên",
+      "Khó tập trung",
+      "Trí nhớ kém",
+      "Hay nhầm lẫn",
+      "Khó ghi nhớ thông tin mới",
+      "Quên việc vừa làm"
+    ],
+    "response": "Suy giảm trí nhớ có thể do tuổi tác, stress, thiếu ngủ, hoặc các bệnh lý khác. Bạn nên ngủ đủ giấc, tập thể dục đều đặn, ăn thực phẩm tốt cho não. Nếu tình trạng nặng hoặc ảnh hưởng cuộc sống, nên đi khám."
+  },
+  {
+    "intent": "symptom_weight_changes",
+    "patterns": [
+      "Tôi bị sụt cân",
+      "Tăng cân đột ngột",
+      "Không tăng cân được",
+      "Ăn nhiều nhưng vẫn gầy",
+      "Béo phì phải làm sao",
+      "Giảm cân không hiệu quả"
+    ],
+    "response": "Thay đổi cân nặng bất thường có thể do bệnh lý, rối loạn chuyển hóa, hoặc chế độ ăn không phù hợp. Bạn nên ăn uống cân bằng, tập thể dục đều đặn. Nếu sụt/tăng cân nhanh không rõ nguyên nhân, nên đi khám."
+  },
+  {
+    "intent": "symptom_menstrual_problems",
+    "patterns": [
+      "Kinh nguyệt không đều",
+      "Đau bụng kinh dữ dội",
+      "Rong kinh",
+      "Mất kinh",
+      "Kinh nguyệt ra nhiều",
+      "Chậm kinh"
+    ],
+    "response": "Rối loạn kinh nguyệt có thể do stress, thay đổi nội tiết, hoặc bệnh lý phụ khoa. Bạn nên giữ tinh thần thoải mái, ăn uống đủ chất. Nếu đau dữ dội, rong kinh kéo dài, hoặc mất kinh trên 3 tháng, nên đi khám phụ khoa."
+  },
+  {
+    "intent": "symptom_sleep_apnea",
+    "patterns": [
+      "Tôi ngủ ngáy to",
+      "Ngưng thở khi ngủ",
+      "Mệt mỏi sau khi ngủ",
+      "Thường xuyên thức giấc",
+      "Ngủ không ngon giấc",
+      "Buồn ngủ ban ngày"
+    ],
+    "response": "Ngưng thở khi ngủ là tình trạng nghiêm trọng, có thể gây thiếu oxy và các biến chứng tim mạch. Bạn nên đi khám chuyên khoa hô hấp để được đánh giá và điều trị phù hợp."
+  },
+  {
+    "intent": "symptom_dental_problems",
+    "patterns": [
+      "Tôi bị đau răng",
+      "Răng bị sâu",
+      "Nướu bị sưng",
+      "Chảy máu chân răng",
+      "Răng bị lung lay",
+      "Hôi miệng",
+      "Răng bị ê buốt",
+      "Đau khi nhai"
+    ],
+    "response": "Các vấn đề về răng miệng cần được chăm sóc đúng cách. Bạn nên đánh răng 2 lần/ngày, dùng chỉ nha khoa, khám răng định kỳ 6 tháng/lần. Nếu đau răng dữ dội, sưng nướu, chảy máu kéo dài, hãy đến nha sĩ ngay."
+  },
+  {
+    "intent": "symptom_digestive_problems",
+    "patterns": [
+      "Tôi bị đầy bụng",
+      "Ợ chua",
+      "Ợ hơi nhiều",
+      "Buồn nôn sau khi ăn",
+      "Đau dạ dày",
+      "Khó tiêu",
+      "Táo bón",
+      "Đau bụng vùng thượng vị"
+    ],
+    "response": "Các vấn đề tiêu hóa có thể do chế độ ăn, stress, hoặc bệnh lý. Bạn nên ăn chậm, nhai kỹ, tránh đồ cay nóng, rượu bia. Nếu đau dữ dội, nôn ra máu, đi ngoài phân đen, hãy đi khám ngay."
+  },
+  {
+    "intent": "symptom_respiratory_problems",
+    "patterns": [
+      "Tôi bị thở khò khè",
+      "Ho có đờm xanh",
+      "Đau ngực khi thở",
+      "Thở nông",
+      "Ho ra máu",
+      "Khó thở khi nằm",
+      "Thở gấp",
+      "Ho về đêm"
+    ],
+    "response": "Các vấn đề hô hấp cần được theo dõi sát sao. Bạn nên giữ ấm, tránh khói bụi, uống nhiều nước. Nếu khó thở dữ dội, ho ra máu, đau ngực khi thở, tím môi, hãy đến bệnh viện ngay."
+  },
+  {
+    "intent": "symptom_cardiovascular_problems",
+    "patterns": [
+      "Tôi bị đau ngực trái",
+      "Tim đập nhanh",
+      "Hồi hộp đánh trống ngực",
+      "Đau thắt ngực",
+      "Chân bị phù",
+      "Mệt khi leo cầu thang",
+      "Huyết áp thấp",
+      "Tim đập không đều"
+    ],
+    "response": "Các vấn đề tim mạch cần được thăm khám kỹ lưỡng. Bạn nên kiểm tra huyết áp thường xuyên, tập thể dục đều đặn, ăn nhạt. Nếu đau ngực dữ dội, khó thở, đổ mồ hôi lạnh, hãy gọi cấp cứu ngay."
+  },
+  {
+    "intent": "symptom_musculoskeletal_problems",
+    "patterns": [
+      "Tôi bị đau cơ",
+      "Đau khớp gối",
+      "Đau vai gáy",
+      "Đau cổ tay",
+      "Đau khớp háng",
+      "Đau khớp cổ chân",
+      "Cứng khớp buổi sáng",
+      "Đau khi vận động"
+    ],
+    "response": "Các vấn đề cơ xương khớp có thể do vận động quá sức, chấn thương, hoặc bệnh lý. Bạn nên nghỉ ngơi, chườm lạnh/nóng, tập các bài tập kéo giãn. Nếu đau dữ dội, sưng nóng đỏ khớp, hoặc khó vận động, nên đi khám."
+  },
+  {
+    "intent": "symptom_neurological_problems",
+    "patterns": [
+      "Tôi bị tê tay chân",
+      "Chân tay run",
+      "Co giật",
+      "Đau dây thần kinh",
+      "Tê bì một bên người",
+      "Yếu tay chân",
+      "Mất cảm giác",
+      "Đau đầu dữ dội"
+    ],
+    "response": "Các vấn đề thần kinh cần được thăm khám chuyên khoa. Nếu bạn bị tê yếu đột ngột một bên người, đau đầu dữ dội, co giật, hoặc mất ý thức, hãy đến bệnh viện ngay vì có thể là dấu hiệu đột quỵ."
+  },
+  {
+    "intent": "symptom_endocrine_problems",
+    "patterns": [
+      "Tôi bị tiểu đường",
+      "Đường huyết cao",
+      "Mệt mỏi không rõ nguyên nhân",
+      "Sụt cân nhanh",
+      "Khát nước nhiều",
+      "Đi tiểu nhiều",
+      "Tuyến giáp có vấn đề",
+      "Rối loạn nội tiết"
+    ],
+    "response": "Các vấn đề nội tiết cần được theo dõi và điều trị lâu dài. Bạn nên kiểm tra đường huyết thường xuyên, ăn uống lành mạnh, tập thể dục đều đặn. Tuân thủ hướng dẫn của bác sĩ và tái khám định kỳ."
+  },
+  {
+    "intent": "symptom_immune_problems",
+    "patterns": [
+      "Tôi hay bị ốm",
+      "Dễ bị nhiễm trùng",
+      "Vết thương lâu lành",
+      "Sốt tái phát",
+      "Nổi hạch",
+      "Mệt mỏi kéo dài",
+      "Dị ứng nhiều thứ",
+      "Sức đề kháng kém"
+    ],
+    "response": "Các vấn đề miễn dịch có thể ảnh hưởng đến khả năng chống lại bệnh tật. Bạn nên ăn uống đủ chất, ngủ đủ giấc, tập thể dục đều đặn. Nếu thường xuyên bị nhiễm trùng hoặc sốt tái phát, nên đi khám để kiểm tra hệ miễn dịch."
+  },
+  {
+    "intent": "symptom_dermatological_problems",
+    "patterns": [
+      "Tôi bị nấm da",
+      "Da bị ngứa",
+      "Nổi mụn nước",
+      "Da bị bong tróc",
+      "Nốt ruồi thay đổi",
+      "Da bị sạm",
+      "Da bị khô",
+      "Nổi mẩn đỏ",
+      "Da bị viêm",
+      "Nổi mụn cóc"
+    ],
+    "response": "Các vấn đề về da cần được chăm sóc đúng cách. Bạn nên giữ da sạch sẽ, tránh gãi, bảo vệ da khỏi ánh nắng. Nếu có nốt ruồi thay đổi hình dạng, màu sắc, hoặc mụn viêm nhiều, nên đi khám da liễu. Không tự ý bôi thuốc khi chưa có chỉ định của bác sĩ."
+  },
+  {
+    "intent": "symptom_ophthalmological_problems",
+    "patterns": [
+      "Tôi bị mờ mắt",
+      "Nhìn không rõ",
+      "Mắt bị đỏ",
+      "Mắt bị ngứa",
+      "Chảy nước mắt nhiều",
+      "Mắt bị sưng",
+      "Nhìn thấy đốm đen",
+      "Mắt bị mỏi",
+      "Nhìn thấy quầng sáng",
+      "Mắt bị khô"
+    ],
+    "response": "Các vấn đề về mắt cần được thăm khám kỹ lưỡng. Nếu bạn bị mờ mắt đột ngột, đau mắt dữ dội, nhìn thấy đốm đen, hoặc mất thị lực, hãy đến bệnh viện ngay. Với các triệu chứng nhẹ, có thể dùng nước muối sinh lý rửa mắt và khám mắt định kỳ."
+  },
+  {
+    "intent": "symptom_ent_problems",
+    "patterns": [
+      "Tôi bị đau tai",
+      "Tai bị ù",
+      "Tai chảy mủ",
+      "Nghe không rõ",
+      "Tai bị ngứa",
+      "Đau tai khi nuốt",
+      "Mũi bị nghẹt",
+      "Chảy nước mũi",
+      "Đau họng",
+      "Khàn tiếng"
+    ],
+    "response": "Các vấn đề về tai mũi họng cần được thăm khám chuyên khoa. Không nên tự ý ngoáy tai, nhỏ thuốc. Nếu đau dữ dội, chảy mủ, sốt, hoặc giảm thính lực, hãy đi khám bác sĩ chuyên khoa tai mũi họng ngay."
+  },
+  {
+    "intent": "symptom_urological_problems",
+    "patterns": [
+      "Tôi bị tiểu buốt",
+      "Tiểu nhiều lần",
+      "Tiểu ra máu",
+      "Khó tiểu",
+      "Tiểu không tự chủ",
+      "Tiểu đêm nhiều lần",
+      "Đau vùng thận",
+      "Nước tiểu đục",
+      "Tiểu rắt",
+      "Bí tiểu"
+    ],
+    "response": "Các vấn đề về tiết niệu có thể do nhiễm trùng đường tiết niệu, sỏi thận, hoặc các bệnh lý khác. Bạn nên uống nhiều nước, giữ vệ sinh sạch sẽ. Nếu tiểu ra máu, đau dữ dội, hoặc sốt, hãy đi khám ngay."
+  },
+  {
+    "intent": "symptom_sexual_health_problems",
+    "patterns": [
+      "Tôi bị rối loạn cương dương",
+      "Xuất tinh sớm",
+      "Giảm ham muốn",
+      "Đau khi quan hệ",
+      "Rối loạn kinh nguyệt",
+      "Vô sinh",
+      "Bệnh lây truyền qua đường tình dục",
+      "Rối loạn tình dục"
+    ],
+    "response": "Các vấn đề về sinh lý cần được thăm khám chuyên khoa. Bạn nên giữ tinh thần thoải mái, ăn uống lành mạnh, tập thể dục đều đặn. Nếu có các triệu chứng bất thường, hãy đi khám để được tư vấn và điều trị phù hợp."
+  },
+  {
+    "intent": "symptom_pediatric_problems",
+    "patterns": [
+      "Trẻ bị sốt",
+      "Trẻ bị ho",
+      "Trẻ bị tiêu chảy",
+      "Trẻ bị nôn trớ",
+      "Trẻ bị phát ban",
+      "Trẻ bị co giật",
+      "Trẻ bị khó thở",
+      "Trẻ bị đau bụng",
+      "Trẻ bị chậm phát triển",
+      "Trẻ bị biếng ăn"
+    ],
+    "response": "Các vấn đề về sức khỏe trẻ em cần được theo dõi sát sao. Bạn nên cho trẻ ăn uống đủ chất, tiêm chủng đầy đủ, khám sức khỏe định kỳ. Nếu trẻ có các triệu chứng bất thường như sốt cao, co giật, khó thở, hãy đưa trẻ đến bệnh viện ngay."
+  },
+  {
+    "intent": "symptom_geriatric_problems",
+    "patterns": [
+      "Người già bị đau khớp",
+      "Người già bị mất ngủ",
+      "Người già bị đãng trí",
+      "Người già bị tiểu đêm",
+      "Người già bị chóng mặt",
+      "Người già bị táo bón",
+      "Người già bị loãng xương",
+      "Người già bị huyết áp cao"
+    ],
+    "response": "Các vấn đề sức khỏe người cao tuổi cần được chăm sóc đặc biệt. Bạn nên cho người già ăn uống đủ chất, tập thể dục nhẹ nhàng, khám sức khỏe định kỳ. Nếu có các triệu chứng bất thường, hãy đưa đi khám ngay."
+  },
+  {
+    "intent": "symptom_emergency_problems",
+    "patterns": [
+      "Tôi bị đau ngực dữ dội",
+      "Tôi bị khó thở",
+      "Tôi bị đau đầu dữ dội",
+      "Tôi bị co giật",
+      "Tôi bị ngất xỉu",
+      "Tôi bị chảy máu nhiều",
+      "Tôi bị bỏng nặng",
+      "Tôi bị gãy xương",
+      "Tôi bị đau bụng dữ dội",
+      "Tôi bị sốt cao co giật"
+    ],
+    "response": "Các tình trạng cấp cứu cần được xử lý ngay lập tức. Nếu bạn hoặc người thân có các triệu chứng trên, hãy gọi cấp cứu 115 ngay lập tức. Trong khi chờ đợi, hãy giữ bình tĩnh và thực hiện các biện pháp sơ cứu cơ bản nếu có thể."
+  },
+  {
+    "intent": "symptom_nutrition_problems",
+    "patterns": [
+      "Tôi bị thiếu máu",
+      "Tôi bị thiếu canxi",
+      "Tôi bị thiếu vitamin D",
+      "Tôi bị thiếu sắt",
+      "Tôi bị thiếu kẽm",
+      "Tôi bị thiếu protein",
+      "Tôi bị thiếu chất xơ",
+      "Tôi bị thiếu nước",
+      "Tôi bị thiếu dinh dưỡng",
+      "Tôi bị thừa cân"
+    ],
+    "response": "Các vấn đề về dinh dưỡng cần được điều chỉnh chế độ ăn uống phù hợp. Bạn nên ăn đa dạng thực phẩm, đủ chất, uống đủ nước. Nếu có các triệu chứng thiếu dinh dưỡng nghiêm trọng, hãy đi khám để được tư vấn chế độ ăn phù hợp."
+  },
+  {
+    "intent": "symptom_psychological_problems",
+    "patterns": [
+      "Tôi bị stress",
+      "Tôi bị lo âu",
+      "Tôi bị trầm cảm",
+      "Tôi bị mất ngủ",
+      "Tôi bị rối loạn lo âu",
+      "Tôi bị rối loạn cảm xúc",
+      "Tôi bị rối loạn nhân cách",
+      "Tôi bị rối loạn tâm thần",
+      "Tôi bị rối loạn hành vi",
+      "Tôi bị rối loạn ăn uống"
+    ],
+    "response": "Các vấn đề về sức khỏe tâm thần cần được thăm khám chuyên khoa. Bạn nên giữ tinh thần thoải mái, tập thể dục đều đặn, ngủ đủ giấc. Nếu có các triệu chứng nghiêm trọng, hãy đi khám để được tư vấn và điều trị phù hợp."
+  },
+  {
+    "intent": "symptom_sleep_problems",
+    "patterns": [
+      "Tôi bị mất ngủ",
+      "Tôi bị khó ngủ",
+      "Tôi bị ngủ không sâu",
+      "Tôi bị ngủ chập chờn",
+      "Tôi bị ngủ ngáy",
+      "Tôi bị ngưng thở khi ngủ",
+      "Tôi bị mộng du",
+      "Tôi bị ác mộng",
+      "Tôi bị ngủ nhiều",
+      "Tôi bị ngủ không đủ giấc"
+    ],
+    "response": "Các vấn đề về giấc ngủ cần được điều chỉnh thói quen sinh hoạt. Bạn nên ngủ đủ 7-8 tiếng/ngày, tránh dùng điện thoại trước khi ngủ, tập thể dục đều đặn. Nếu tình trạng kéo dài, hãy đi khám để được tư vấn và điều trị phù hợp."
+  },
+  {
+    "intent": "symptom_movement_problems",
+    "patterns": [
+      "Tôi bị đau cơ",
+      "Tôi bị đau khớp",
+      "Tôi bị đau lưng",
+      "Tôi bị đau cổ",
+      "Tôi bị đau vai",
+      "Tôi bị đau gối",
+      "Tôi bị đau háng",
+      "Tôi bị đau cổ tay",
+      "Tôi bị đau cổ chân",
+      "Tôi bị đau khi vận động"
+    ],
+    "response": "Các vấn đề về vận động có thể do vận động quá sức, chấn thương, hoặc bệnh lý. Bạn nên nghỉ ngơi, chườm lạnh/nóng, tập các bài tập kéo giãn. Nếu đau dữ dội, sưng nóng đỏ khớp, hoặc khó vận động, nên đi khám."
+  },
+  {
+    "intent": "symptom_pregnancy_problems",
+    "patterns": [
+      "Tôi bị ốm nghén",
+      "Tôi bị đau lưng khi mang thai",
+      "Tôi bị phù chân khi mang thai",
+      "Tôi bị đau bụng khi mang thai",
+      "Tôi bị ra máu khi mang thai",
+      "Tôi bị đau đầu khi mang thai",
+      "Tôi bị khó thở khi mang thai",
+      "Tôi bị tiểu đường thai kỳ",
+      "Tôi bị huyết áp cao khi mang thai",
+      "Tôi bị thiếu máu khi mang thai"
+    ],
+    "response": "Các vấn đề về thai sản cần được theo dõi sát sao. Bạn nên khám thai định kỳ, ăn uống đủ chất, nghỉ ngơi hợp lý. Nếu có các triệu chứng bất thường như ra máu, đau bụng dữ dội, khó thở, hãy đến bệnh viện ngay."
+  },
+  {
+    "intent": "symptom_postpartum_problems",
+    "patterns": [
+      "Tôi bị đau vết mổ sau sinh",
+      "Tôi bị đau vết khâu tầng sinh môn",
+      "Tôi bị đau lưng sau sinh",
+      "Tôi bị đau đầu sau sinh",
+      "Tôi bị trầm cảm sau sinh",
+      "Tôi bị mất ngủ sau sinh",
+      "Tôi bị đau ngực sau sinh",
+      "Tôi bị đau bụng sau sinh",
+      "Tôi bị đau vú sau sinh",
+      "Tôi bị đau vùng kín sau sinh"
+    ],
+    "response": "Các vấn đề sau sinh cần được chăm sóc đặc biệt. Bạn nên nghỉ ngơi đầy đủ, ăn uống đủ chất, vệ sinh sạch sẽ. Nếu có các triệu chứng bất thường như sốt, đau dữ dội, chảy máu nhiều, hãy đến bệnh viện ngay."
+  },
+  {
+    "intent": "symptom_breastfeeding_problems",
+    "patterns": [
+      "Tôi bị đau vú khi cho con bú",
+      "Tôi bị tắc tia sữa",
+      "Tôi bị viêm vú",
+      "Tôi bị nứt đầu vú",
+      "Tôi bị ít sữa",
+      "Tôi bị thừa sữa",
+      "Tôi bị đau ngực khi cho con bú",
+      "Tôi bị sốt khi cho con bú",
+      "Tôi bị đau bụng khi cho con bú",
+      "Tôi bị đau lưng khi cho con bú"
+    ],
+    "response": "Các vấn đề về cho con bú cần được xử lý đúng cách. Bạn nên cho con bú đúng tư thế, vệ sinh vú sạch sẽ, massage vú nhẹ nhàng. Nếu có các triệu chứng bất thường như sốt, đau dữ dội, viêm vú, hãy đi khám ngay."
+  },
+  {
+    "intent": "symptom_infant_care_problems",
+    "patterns": [
+      "Trẻ sơ sinh bị vàng da",
+      "Trẻ sơ sinh bị nôn trớ",
+      "Trẻ sơ sinh bị tiêu chảy",
+      "Trẻ sơ sinh bị táo bón",
+      "Trẻ sơ sinh bị sốt",
+      "Trẻ sơ sinh bị ho",
+      "Trẻ sơ sinh bị khó thở",
+      "Trẻ sơ sinh bị co giật",
+      "Trẻ sơ sinh bị phát ban",
+      "Trẻ sơ sinh bị đau bụng"
+    ],
+    "response": "Các vấn đề về chăm sóc trẻ sơ sinh cần được theo dõi sát sao. Bạn nên cho trẻ bú đủ, giữ ấm, vệ sinh sạch sẽ. Nếu trẻ có các triệu chứng bất thường như sốt cao, co giật, khó thở, hãy đưa trẻ đến bệnh viện ngay."
+  },
+  {
+    "intent": "symptom_vaccination_problems",
+    "patterns": [
+      "Tôi bị sốt sau khi tiêm vaccine",
+      "Tôi bị đau tại vị trí tiêm",
+      "Tôi bị sưng tại vị trí tiêm",
+      "Tôi bị dị ứng sau khi tiêm",
+      "Tôi bị mệt mỏi sau khi tiêm",
+      "Tôi bị đau đầu sau khi tiêm",
+      "Tôi bị đau cơ sau khi tiêm",
+      "Tôi bị phát ban sau khi tiêm",
+      "Tôi bị khó thở sau khi tiêm",
+      "Tôi bị co giật sau khi tiêm"
+    ],
+    "response": "Các vấn đề sau tiêm chủng cần được theo dõi sát sao. Bạn nên nghỉ ngơi, uống nhiều nước, chườm lạnh tại vị trí tiêm. Nếu có các triệu chứng nghiêm trọng như sốt cao, khó thở, co giật, hãy đến bệnh viện ngay."
+  },
+  {
+    "intent": "symptom_mental_health_problems",
+    "patterns": [
+      "Tôi bị trầm cảm",
+      "Tôi bị lo âu",
+      "Tôi bị stress",
+      "Tôi bị rối loạn lo âu",
+      "Tôi bị rối loạn cảm xúc",
+      "Tôi bị rối loạn nhân cách",
+      "Tôi bị rối loạn tâm thần",
+      "Tôi bị rối loạn hành vi",
+      "Tôi bị rối loạn ăn uống",
+      "Tôi bị rối loạn giấc ngủ"
+    ],
+    "response": "Các vấn đề về sức khỏe tâm thần cần được thăm khám chuyên khoa. Bạn nên giữ tinh thần thoải mái, tập thể dục đều đặn, ngủ đủ giấc. Nếu có các triệu chứng nghiêm trọng, hãy đi khám để được tư vấn và điều trị phù hợp."
+  },
+  {
+    "intent": "symptom_reproductive_health_problems",
+    "patterns": [
+      "Tôi bị rối loạn kinh nguyệt",
+      "Tôi bị đau bụng kinh",
+      "Tôi bị rong kinh",
+      "Tôi bị mất kinh",
+      "Tôi bị đau khi quan hệ",
+      "Tôi bị viêm nhiễm phụ khoa",
+      "Tôi bị u xơ tử cung",
+      "Tôi bị u nang buồng trứng",
+      "Tôi bị vô sinh",
+      "Tôi bị sảy thai"
+    ],
+    "response": "Các vấn đề về sức khỏe sinh sản cần được thăm khám chuyên khoa. Bạn nên giữ vệ sinh sạch sẽ, ăn uống đủ chất, nghỉ ngơi hợp lý. Nếu có các triệu chứng bất thường, hãy đi khám để được tư vấn và điều trị phù hợp."
+  },
+  {
+    "intent": "symptom_elderly_health_problems",
+    "patterns": [
+      "Người già bị đau khớp",
+      "Người già bị mất ngủ",
+      "Người già bị đãng trí",
+      "Người già bị tiểu đêm",
+      "Người già bị chóng mặt",
+      "Người già bị táo bón",
+      "Người già bị loãng xương",
+      "Người già bị huyết áp cao",
+      "Người già bị tiểu đường",
+      "Người già bị đau tim"
+    ],
+    "response": "Các vấn đề sức khỏe người cao tuổi cần được chăm sóc đặc biệt. Bạn nên cho người già ăn uống đủ chất, tập thể dục nhẹ nhàng, khám sức khỏe định kỳ. Nếu có các triệu chứng bất thường, hãy đưa đi khám ngay."
+  },
+  {
+    "intent": "symptom_children_health_problems",
+    "patterns": [
+      "Trẻ bị sốt",
+      "Trẻ bị ho",
+      "Trẻ bị tiêu chảy",
+      "Trẻ bị nôn trớ",
+      "Trẻ bị phát ban",
+      "Trẻ bị co giật",
+      "Trẻ bị khó thở",
+      "Trẻ bị đau bụng",
+      "Trẻ bị chậm phát triển",
+      "Trẻ bị biếng ăn"
+    ],
+    "response": "Các vấn đề về sức khỏe trẻ em cần được theo dõi sát sao. Bạn nên cho trẻ ăn uống đủ chất, tiêm chủng đầy đủ, khám sức khỏe định kỳ. Nếu trẻ có các triệu chứng bất thường như sốt cao, co giật, khó thở, hãy đưa trẻ đến bệnh viện ngay."
+  },
+  {
+    "intent": "symptom_adolescent_health_problems",
+    "patterns": [
+      "Trẻ vị thành niên bị mụn",
+      "Trẻ vị thành niên bị rối loạn kinh nguyệt",
+      "Trẻ vị thành niên bị đau đầu",
+      "Trẻ vị thành niên bị mất ngủ",
+      "Trẻ vị thành niên bị stress",
+      "Trẻ vị thành niên bị trầm cảm",
+      "Trẻ vị thành niên bị lo âu",
+      "Trẻ vị thành niên bị rối loạn ăn uống",
+      "Trẻ vị thành niên bị rối loạn hành vi",
+      "Trẻ vị thành niên bị rối loạn tâm lý"
+    ],
+    "response": "Các vấn đề sức khỏe trẻ vị thành niên cần được quan tâm đặc biệt. Bạn nên cho trẻ ăn uống đủ chất, tập thể dục đều đặn, ngủ đủ giấc. Nếu trẻ có các triệu chứng bất thường, hãy đưa đi khám để được tư vấn và điều trị phù hợp."
+  },
+  {
+    "intent": "symptom_school_health_problems",
+    "patterns": [
+      "Trẻ bị cận thị",
+      "Trẻ bị cong vẹo cột sống",
+      "Trẻ bị béo phì",
+      "Trẻ bị suy dinh dưỡng",
+      "Trẻ bị stress học tập",
+      "Trẻ bị rối loạn tăng động",
+      "Trẻ bị tự kỷ",
+      "Trẻ bị khó khăn trong học tập",
+      "Trẻ bị rối loạn hành vi",
+      "Trẻ bị bắt nạt"
+    ],
+    "response": "Các vấn đề sức khỏe học đường cần được phát hiện và can thiệp sớm. Bạn nên cho trẻ khám sức khỏe định kỳ, tạo môi trường học tập lành mạnh. Nếu trẻ có các vấn đề về học tập hoặc hành vi, hãy tìm kiếm sự hỗ trợ từ chuyên gia."
+  },
+  {
+    "intent": "symptom_sports_health_problems",
+    "patterns": [
+      "Trẻ bị chấn thương khi chơi thể thao",
+      "Trẻ bị đau cơ sau khi tập luyện",
+      "Trẻ bị mệt mỏi khi chơi thể thao",
+      "Trẻ bị khó thở khi vận động",
+      "Trẻ bị đau khớp khi chơi thể thao",
+      "Trẻ bị chuột rút khi tập luyện",
+      "Trẻ bị say nắng khi chơi thể thao",
+      "Trẻ bị mất nước khi vận động",
+      "Trẻ bị đau đầu sau khi tập luyện",
+      "Trẻ bị chóng mặt khi chơi thể thao"
+    ],
+    "response": "Các vấn đề sức khỏe khi chơi thể thao cần được phòng ngừa và xử lý đúng cách. Bạn nên cho trẻ khởi động kỹ trước khi tập luyện, uống đủ nước, nghỉ ngơi hợp lý. Nếu trẻ có các triệu chứng bất thường, hãy dừng tập luyện và đưa đi khám."
+  },
+  {
+    "intent": "symptom_environmental_health_problems",
+    "patterns": [
+      "Tôi bị dị ứng do ô nhiễm không khí",
+      "Tôi bị khó thở do bụi mịn",
+      "Tôi bị đau đầu do tiếng ồn",
+      "Tôi bị mệt mỏi do nắng nóng",
+      "Tôi bị ngộ độc do nước bẩn",
+      "Tôi bị phát ban do hóa chất",
+      "Tôi bị ho do khói bụi",
+      "Tôi bị chóng mặt do ô nhiễm",
+      "Tôi bị đau mắt do khói bụi",
+      "Tôi bị khó chịu do mùi hôi"
+    ],
+    "response": "Các vấn đề sức khỏe do môi trường cần được phòng ngừa và xử lý đúng cách. Bạn nên đeo khẩu trang khi ra ngoài, uống nước sạch, tránh tiếp xúc với các tác nhân gây hại. Nếu có các triệu chứng nghiêm trọng, hãy đi khám ngay."
+  },
+  {
+    "intent": "symptom_occupational_health_problems",
+    "patterns": [
+      "Tôi bị đau lưng do ngồi nhiều",
+      "Tôi bị mỏi mắt do máy tính",
+      "Tôi bị stress do công việc",
+      "Tôi bị đau cổ do sai tư thế",
+      "Tôi bị mất ngủ do ca đêm",
+      "Tôi bị đau tay do lặp đi lặp lại",
+      "Tôi bị khó thở do hóa chất",
+      "Tôi bị đau đầu do tiếng ồn",
+      "Tôi bị mệt mỏi do làm việc quá sức",
+      "Tôi bị căng thẳng do deadline"
+    ],
+    "response": "Các vấn đề sức khỏe nghề nghiệp cần được phòng ngừa và xử lý đúng cách. Bạn nên tập thể dục đều đặn, nghỉ ngơi hợp lý, sử dụng trang thiết bị bảo hộ. Nếu có các triệu chứng nghiêm trọng, hãy đi khám và báo cáo với cơ quan y tế lao động."
+  },
+  {
+    "intent": "symptom_psychosocial_health_problems",
+    "patterns": [
+      "Tôi bị căng thẳng do xã hội",
+      "Tôi bị lo âu do áp lực",
+      "Tôi bị trầm cảm do cô lập",
+      "Tôi bị stress do công việc",
+      "Tôi bị mất ngủ do lo lắng",
+      "Tôi bị đau đầu do căng thẳng",
+      "Tôi bị mệt mỏi do áp lực",
+      "Tôi bị khó tập trung do stress",
+      "Tôi bị rối loạn cảm xúc do xã hội",
+      "Tôi bị rối loạn hành vi do áp lực"
+    ],
+    "response": "Các vấn đề về sức khỏe tâm lý xã hội cần được quan tâm và điều trị đúng cách. Bạn nên giữ tinh thần thoải mái, tập thể dục đều đặn, ngủ đủ giấc. Nếu có các triệu chứng nghiêm trọng, hãy đi khám để được tư vấn và điều trị phù hợp."
+  },
+  {
+    "intent": "symptom_community_health_problems",
+    "patterns": [
+      "Tôi bị sốt xuất huyết",
+      "Tôi bị tay chân miệng",
+      "Tôi bị sởi",
+      "Tôi bị thủy đậu",
+      "Tôi bị cúm",
+      "Tôi bị viêm phổi",
+      "Tôi bị viêm gan",
+      "Tôi bị lao",
+      "Tôi bị HIV",
+      "Tôi bị Covid-19"
+    ],
+    "response": "Các vấn đề sức khỏe cộng đồng cần được phòng ngừa và điều trị kịp thời. Bạn nên tiêm chủng đầy đủ, giữ vệ sinh sạch sẽ, đeo khẩu trang khi cần thiết. Nếu có các triệu chứng bất thường, hãy đi khám và báo cáo với cơ quan y tế địa phương."
+  },
+  {
+    "intent": "symptom_global_health_problems",
+    "patterns": [
+      "Tôi bị sốt rét",
+      "Tôi bị sốt xuất huyết",
+      "Tôi bị Ebola",
+      "Tôi bị Zika",
+      "Tôi bị MERS",
+      "Tôi bị SARS",
+      "Tôi bị Covid-19",
+      "Tôi bị cúm gia cầm",
+      "Tôi bị cúm lợn",
+      "Tôi bị bệnh truyền nhiễm"
+    ],
+    "response": "Các vấn đề sức khỏe toàn cầu cần được phòng ngừa và điều trị kịp thời. Bạn nên cập nhật thông tin từ WHO, Bộ Y tế, tiêm chủng đầy đủ, giữ vệ sinh sạch sẽ. Nếu có các triệu chứng bất thường, hãy đi khám và báo cáo với cơ quan y tế."
+  },
+  {
+    "intent": "symptom_climate_health_problems",
+    "patterns": [
+      "Tôi bị say nắng",
+      "Tôi bị cảm lạnh",
+      "Tôi bị dị ứng thời tiết",
+      "Tôi bị đau khớp do thời tiết",
+      "Tôi bị đau đầu do thời tiết",
+      "Tôi bị mệt mỏi do thời tiết",
+      "Tôi bị khó thở do thời tiết",
+      "Tôi bị chóng mặt do thời tiết",
+      "Tôi bị đau mắt do thời tiết",
+      "Tôi bị phát ban do thời tiết"
+    ],
+    "response": "Các vấn đề sức khỏe do thời tiết cần được phòng ngừa và xử lý đúng cách. Bạn nên mặc quần áo phù hợp, uống đủ nước, tránh tiếp xúc với các tác nhân gây hại. Nếu có các triệu chứng nghiêm trọng, hãy đi khám ngay."
+  },
+  {
+    "intent": "symptom_disaster_health_problems",
+    "patterns": [
+      "Tôi bị thương do thiên tai",
+      "Tôi bị sốc do thiên tai",
+      "Tôi bị mất nước do thiên tai",
+      "Tôi bị nhiễm trùng do thiên tai",
+      "Tôi bị stress do thiên tai",
+      "Tôi bị lo âu do thiên tai",
+      "Tôi bị trầm cảm do thiên tai",
+      "Tôi bị mất ngủ do thiên tai",
+      "Tôi bị đau đầu do thiên tai",
+      "Tôi bị mệt mỏi do thiên tai"
+    ],
+    "response": "Các vấn đề sức khỏe do thiên tai cần được xử lý khẩn cấp. Bạn nên tìm nơi an toàn, giữ bình tĩnh, liên hệ với cơ quan cứu hộ. Nếu có các triệu chứng nghiêm trọng, hãy tìm kiếm sự hỗ trợ y tế ngay lập tức."
+  },
+  {
+    "intent": "symptom_emergency_preparedness",
+    "patterns": [
+      "Tôi cần chuẩn bị gì cho thiên tai",
+      "Tôi cần làm gì khi có dịch bệnh",
+      "Tôi cần chuẩn bị gì cho khẩn cấp",
+      "Tôi cần làm gì khi có thảm họa",
+      "Tôi cần chuẩn bị gì cho sơ cứu",
+      "Tôi cần làm gì khi có tai nạn",
+      "Tôi cần chuẩn bị gì cho y tế",
+      "Tôi cần làm gì khi có bệnh",
+      "Tôi cần chuẩn bị gì cho sức khỏe",
+      "Tôi cần làm gì khi có vấn đề"
+    ],
+    "response": "Chuẩn bị cho các tình huống khẩn cấp là rất quan trọng. Bạn nên chuẩn bị túi cứu thương, nước uống, thực phẩm, thuốc men, đèn pin, pin dự phòng. Nắm rõ các số điện thoại khẩn cấp và địa chỉ bệnh viện gần nhất."
+  }
+]
+  

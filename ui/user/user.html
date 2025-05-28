@@ -6,6 +6,7 @@
   <title>Người dùng – Hệ thống Y tế</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
   <header>
     <div class="container">
@@ -31,6 +32,25 @@
     </div>
   </footer>
 
+    <!-- Chatbot Widget -->
+    <!-- Chatbot Widget -->
+  <div id="chatbot-container">
+    <button id="chatbot-toggle" class="chatbot-toggle">Chat với trợ lý</button>
+    <div id="chatbot-box" class="chatbot-box hidden">
+      <div id="chatbot-messages" class="chatbot-messages"></div>
+      <div class="chatbot-input">
+        <input type="text" id="chatbot-input" placeholder="Nhập tin nhắn..." />
+        <button id="chatbot-send">Gửi</button>
+      </div>
+    </div>
+  </div>
+
+  
+
   <script type="module" src="js/router.js"></script>
+  <script type="module" src="js/components/chatbot.js"></script>
 </body>
+
+
+
 </html>

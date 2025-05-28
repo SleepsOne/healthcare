@@ -132,6 +132,16 @@ services:
     volumes:
       - ./docs/pharmacy:/app/docs
 
+  chatbot-service:
+    build: ./chatbot-service
+    ports:
+      - "8007:8007"
+    networks:
+      - backend
+    volumes:
+      - ./chatbot-service/kb:/app/kb
+
+
 
 
   nginx:
@@ -148,7 +158,7 @@ services:
       - appointment-service
       - doctor-service
       - notification-service
-      
+      - chatbot-service
     networks:
       - backend
 
